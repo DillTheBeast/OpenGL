@@ -1,0 +1,29 @@
+{
+  "configurations": [
+      {
+          "name": "Mac",
+          "includePath": [
+              "${workspaceFolder}/**",
+              "/Users/dillonmaltese/Documents/GitHub/OpenGL/include"
+          ],
+          "defines": [],
+          "macFrameworkPath": [
+              "/System/Library/Frameworks",
+              "/Library/Frameworks"
+          ],
+          "compilerPath": "/usr/bin/clang",
+          "cStandard": "c11",
+          "cppStandard": "c++17",
+          "intelliSenseMode": "macos-gcc-x64",
+          "browse": {
+              "path": [
+                  "${workspaceFolder}",
+                  "/Users/dillonmaltese/Documents/GitHub/OpenGL/include"
+              ],
+              "limitSymbolsToIncludedHeaders": true,
+              "databaseFilename": ""
+          }
+      }
+  ],
+  "version": 4
+}
