@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "C/C++ Launch",
+      "name": "Run",
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/main",
@@ -11,15 +11,7 @@
       "cwd": "${workspaceFolder}",
       "environment": [],
       "externalConsole": false,
-      "MIMode": "gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ],
-      "preLaunchTask": "build"
+      "MIMode": "lldb"
     },
     {
       "name": "C/C++ Runner: Debug Session",
@@ -28,34 +20,6 @@
       "args": [],
       "cwd": "/Users/dillonmaltese/Documents/GitHub/OpenGL",
       "program": "/Users/dillonmaltese/Documents/GitHub/OpenGL/build/Debug/outDebug"
-    }
-  ],
-  "tasks": [
-    {
-      "label": "build",
-      "type": "shell",
-      "command": "g++",
-      "args": [
-        "-I/Users/dillonmaltese/Documents/GitHub/OpenGL/include",
-        "main.cpp",
-        "/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c",
-        "-o",
-        "main",
-        "-L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib",
-        "-lglfw3",
-        "-framework",
-        "OpenGL",
-        "-framework",
-        "Cocoa",
-        "-framework",
-        "IOKit",
-        "-framework",
-        "CoreVideo"
-      ],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
     }
   ]
 }

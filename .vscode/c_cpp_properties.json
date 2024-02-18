@@ -1,3 +1,5 @@
+// c_cpp_properties.json
+
 {
   "configurations": [
       {
@@ -14,15 +16,8 @@
           "compilerPath": "/usr/bin/clang",
           "cStandard": "c11",
           "cppStandard": "c++17",
-          "intelliSenseMode": "macos-gcc-x64",
-          "browse": {
-              "path": [
-                  "${workspaceFolder}",
-                  "/Users/dillonmaltese/Documents/GitHub/OpenGL/include"
-              ],
-              "limitSymbolsToIncludedHeaders": true,
-              "databaseFilename": ""
-          }
+          "intelliSenseMode": "clang-x64",
+          "compilerArgs": []
       }
   ],
   "version": 4
