@@ -28,6 +28,11 @@ int main()
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     } 
+    float vertices[] = {
+        -0.5f, -0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f,
+        0.0f,  0.5f, 0.0f
+    };  
 
     //Keeping window running
     //glfwwindowShouldClose sees whether the window was closed
@@ -36,6 +41,7 @@ int main()
         processInput(window);
 
         //Where rendering goes
+
 
         //Keyboard/Mouse input
         glfwPollEvents();  
