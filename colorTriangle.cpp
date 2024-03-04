@@ -19,21 +19,10 @@ const char *vertexShaderSource = "#version 330 core\n"
     "}\0";
 const char *fragmentShaderSource = "#version 330 core\n"
     "out vec4 FragColor;\n"
-    "in vec3 FragPos;\n"
-    "uniform vec4 triangleColor;\n"
     "void main()\n"
     "{\n"
-    "   float distA = distance(FragPos.xy, vec2(-0.5, -0.5));\n"
-    "   float distB = distance(FragPos.xy, vec2(0.5, -0.5));\n"
-    "   float distC = distance(FragPos.xy, vec2(0.0, 0.5));\n"
-    "   float totalDist = distA + distB + distC;\n"
-    "   vec3 blendedColor = (distA / totalDist) * vec3(1.0, 0.0, 0.0) + (distB / totalDist) * vec3(0.0, 1.0, 0.0) + (distC / totalDist) * vec3(0.0, 0.0, 1.0);\n"
-    "   vec4 blendedColorVec4 = vec4(blendedColor, 1.0);\n"
-    "   FragColor = mix(blendedColorVec4, triangleColor, 0.5);\n"
+    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
     "}\n\0";
-
-
-
 
 int main()
 {
