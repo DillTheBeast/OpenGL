@@ -1,3 +1,4 @@
+//g++ -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include tut/coolTriangle.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/EBO.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/VAO.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/VBO.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/Shader.cpp -o main -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
 //g++ -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include tut/coolTriangle.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c -o main -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
 #include<iostream>
 #include<glad/glad.h>
