@@ -18,8 +18,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/dillonmaltese/Documents/GitHub/OpenGL",
-      "program": "/Users/dillonmaltese/Documents/GitHub/OpenGL/build/Debug/outDebug"
+      "cwd": "/Users/dillonmaltese/Documents/GitHub/OpenGL/tut",
+      "program": "/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/build/Debug/outDebug"
     }
   ]
 }
