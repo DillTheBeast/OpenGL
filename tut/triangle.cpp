@@ -1,22 +1,28 @@
-//g++ -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include tut/triangle.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c -o main -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
+//g++ -std=c++11 -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include \
+tut/triangle.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c \
+/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/EBO.cpp \
+/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/VAO.cpp \
+/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/VBO.cpp \
+/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/shaderClass.cpp \
+-o main -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
+-lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
+
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-// Vertex Shader source code
-const char* vertexShaderSource = "#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"void main()\n"
-"{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-"}\0";
-//Fragment Shader source code
-const char* fragmentShaderSource = "#version 330 core\n"
-"out vec4 FragColor;\n"
-"void main()\n"
-"{\n"
-"   FragColor = vec4(0.8f, 0.3f, 0.02f, 1.0f);\n"
-"}\n\0";
+#include "shaderClass.h"
+#include "VAO.h"
+#include "VBO.h"
+#include "EBO.h"
+
+//Vertices coordinates (Goes from -1 to 1) 
+GLfloat vertices[] = {
+    -0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,    // Lower left
+    0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,     // Lower right
+    0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f,  // Top
+
+};
 
 int main() {
 
@@ -30,16 +36,8 @@ int main() {
     //Telling GLFW that a mac is being used
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    //Vertices coordinates (Goes from -1 to 1) 
-    GLfloat vertices[] = {
-        -0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,    // Lower left
-        0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,     // Lower right
-        0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f,  // Top
-
-    };
-
     //Making GLFW window                                      Making window not fullscreen
-    GLFWwindow* window = glfwCreateWindow(800, 800, "Engine", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(800, 800, "Triangle", NULL, NULL);
     //Making sure window can be created
     if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -59,56 +57,21 @@ int main() {
     glfwGetFramebufferSize(window, &width, &height);
     glViewport(0, 0, width, height);
 
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    //             Reference value, length of source string, pointer to source code, NULL
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    // Compiling the source code
-    glCompileShader(vertexShader);
+    // Generates Shader object using shaders defualt.vert and default.frag
+	Shader shaderProgram("tut/default.vert", "tut/default.frag");
 
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    //             Reference value, length of source string, pointer to source code, NULL
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    // Compiling the source code
-    glCompileShader(fragmentShader);
+	// Generates Vertex Array Object and binds it
+	VAO VAO1;
+	VAO1.Bind();
 
-    GLuint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
+	// Generates Vertex Buffer Object and links it to vertices
+	VBO VBO1(vertices, sizeof(vertices));
 
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader); 
-
-    //VAO = stores pointers to VBO + tell opengl how to use VBO
-    GLuint VAO, VBO;
-
-    //VAO needs to be before VBO 
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-
-    glBindVertexArray(VAO); 
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-    // Storing vertices in VBO
-    //           Type of Buffer, size of buffer, pointer to data, usage
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    // Tell opengl how to read VBO
-    //                    Pos, Size, Type, int coords?, Amount of data, Pointer to data
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0); 
-
-    // Bind the VBO and VAO
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
-
-    //Setting background
-    glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-    //Assign new background to back buffer
-    glClear(GL_COLOR_BUFFER_BIT);
-    //Swap back and front buffers
-    glfwSwapBuffers(window);
+	// Links VBO to VAO
+	VAO1.LinkVBO(VBO1, 0);
+	// Unbind all to prevent accidentally modifying them
+	VAO1.Unbind();
+	VBO1.Unbind();
 
     //Main loop
     while (!glfwWindowShouldClose(window)) {
@@ -116,10 +79,10 @@ int main() {
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         //Assign new background to back buffer
         glClear(GL_COLOR_BUFFER_BIT);
-        //Using the shaders
-        glUseProgram(shaderProgram);
-        //Draw the triangle
-        glBindVertexArray(VAO);
+        // Tell OpenGL which Shader Program we want to use
+		shaderProgram.Activate();
+		// Bind the VAO so OpenGL knows to use it
+		VAO1.Bind();
         glDrawArrays(GL_TRIANGLES, 0, 3);
         //Swap back and front buffers
         glfwSwapBuffers(window);
@@ -127,12 +90,13 @@ int main() {
         glfwPollEvents(); 
     }
 
-    //Deleting objects
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteProgram(shaderProgram);
-
-    glfwDestroyWindow(window);
-    glfwTerminate();
-    return 0;
+    // Delete all the objects we've created
+	VAO1.Delete();
+	VBO1.Delete();
+	shaderProgram.Delete();
+	// Delete window before ending the program
+	glfwDestroyWindow(window);
+	// Terminate GLFW before ending the program
+	glfwTerminate();
+	return 0;
 }

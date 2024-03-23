@@ -1,5 +1,12 @@
-//g++ -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include tut/coolTriangle.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/EBO.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/VAO.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/VBO.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/Shader.cpp -o main -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
-//g++ -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include tut/coolTriangle.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c -o main -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
+//g++ -std=c++11 -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include \
+tut/coolTriangle.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c \
+/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/EBO.cpp \
+/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/VAO.cpp \
+/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/VBO.cpp \
+/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/shaderClass.cpp \
+-o main -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
+-lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
+
 #include<iostream>
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
@@ -8,8 +15,6 @@
 #include"VAO.h"
 #include"VBO.h"
 #include"EBO.h"
-
-
 
 // Vertices coordinates
 GLfloat vertices[] =
@@ -30,8 +35,6 @@ GLuint indices[] =
 	5, 4, 1 // Upper triangle
 };
 
-
-
 int main()
 {
 	// Initialize GLFW
@@ -45,7 +48,7 @@ int main()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	// Create a GLFWwindow object of 800 by 800 pixels, naming it "YoutubeOpenGL"
-	GLFWwindow* window = glfwCreateWindow(800, 800, "YoutubeOpenGL", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(800, 800, "Cool Triangle", NULL, NULL);
 	// Error check if the window fails to create
 	if (window == NULL)
 	{
@@ -58,16 +61,14 @@ int main()
 
 	//Load GLAD so it configures OpenGL
 	gladLoadGL();
-	// Specify the viewport of OpenGL in the Window
-	// In this case the viewport goes from x = 0, y = 0, to x = 800, y = 800
-	glViewport(0, 0, 800, 800);
-
-
+	//Tell opengl the area of the window 
+    //Bottom left --> top right
+    int width, height;
+    glfwGetFramebufferSize(window, &width, &height);
+    glViewport(0, 0, width, height);
 
 	// Generates Shader object using shaders defualt.vert and default.frag
-	Shader shaderProgram("default.vert", "default.frag");
-
-
+	Shader shaderProgram("tut/default.vert", "tut/default.frag");
 
 	// Generates Vertex Array Object and binds it
 	VAO VAO1;
@@ -85,11 +86,8 @@ int main()
 	VBO1.Unbind();
 	EBO1.Unbind();
 
-
-
 	// Main while loop
-	while (!glfwWindowShouldClose(window))
-	{
+	while (!glfwWindowShouldClose(window)) {
 		// Specify the color of the background
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 		// Clean the back buffer and assign the new color to it
@@ -105,8 +103,6 @@ int main()
 		// Take care of all GLFW events
 		glfwPollEvents();
 	}
-
-
 
 	// Delete all the objects we've created
 	VAO1.Delete();
