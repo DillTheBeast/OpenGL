@@ -1,5 +1,5 @@
 //g++ -std=c++17 -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/glm \
-tut/3d.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c \
+tut/pyramid.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c \
 /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/EBO.cpp \
 /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/VAO.cpp \
 /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/VBO.cpp \
