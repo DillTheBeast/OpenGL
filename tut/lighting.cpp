@@ -166,6 +166,8 @@ int main() {
     VBO lightVBO(lightVertices, sizeof(lightVertices));
     EBO lightEBO(lightIndices, sizeof(lightIndices));
 
+    lightVAO.LinkAttrib(lightVBO, 0, 3, GL_FLOAT, 3 * sizeof(float), (void*)0);
+
     lightVAO.Unbind();
     lightVBO.Unbind();
     lightEBO.Unbind();
