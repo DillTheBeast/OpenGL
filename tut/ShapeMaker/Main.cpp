@@ -10,8 +10,10 @@ tut/ShapeMaker/Main.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c 
 
 #include <filesystem>
 namespace fs = std::filesystem;
+using namespace std;
 
 #include <iostream>
+#include <limits>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -23,6 +25,8 @@ namespace fs = std::filesystem;
 #include "VAO.h"
 #include "VBO.h"
 #include "EBO.h"
+
+void takeInput(GLfloat vertices[]);
 
 // Vertices coordinates (Goes from -1 to 1)
 GLfloat vertices[] = {
@@ -93,7 +97,7 @@ GLuint indices[] = {
     5, 7, 6
 };
 
-int main() {
+int main() 
     // Initialize GLFW
     if (!glfwInit()) {
         std::cerr << "Failed to initialize GLFW" << std::endl;
@@ -237,4 +241,21 @@ int main() {
     // Terminate GLFW before ending the program
     glfwTerminate();
     return 0;
+}
+
+void takeInput(GLfloat vertices[]) {
+    std::cout << "Enter colors (R, G, B) for each vertex:" << std::endl;
+    for(int i = 0; i < 8; ++i) {
+        std::cout << "Vertex " << i << ": ";
+        if (!(std::cin >> vertices[i * 8 + 3] >> vertices[i * 8 + 4] >> vertices[i * 8 + 5])) {
+            std::cerr << "Invalid input. Please enter valid float values." << std::endl;
+            // Clear the input stream and ignore the invalid input
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            // Decrement i to retry input for the same index
+            --i;
+        }
+        // Clear the remaining characters from the input buffer, including the newline
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
 }
