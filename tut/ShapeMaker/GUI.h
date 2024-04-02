@@ -8,7 +8,7 @@ class GUI
 {
 public:
     GUI();
-    void Input(GLFWwindow* window);
+    void Input();
     void dropDown();
 };
 
