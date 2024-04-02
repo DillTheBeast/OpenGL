@@ -171,7 +171,6 @@ int main() {
     glEnable(GL_DEPTH_TEST);
 
     GUI thing;
-    thing.Input();
 
     //Main loop
     while (!glfwWindowShouldClose(window)) {
@@ -212,6 +211,8 @@ int main() {
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
         int projLoc = glGetUniformLocation(shaderProgram.ID, "proj");
         glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
+
+        thing.Input(window);
 
         // Changes size of triangle
         //glUniform1f(uniID, 0.5f);
