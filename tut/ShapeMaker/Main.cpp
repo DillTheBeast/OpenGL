@@ -4,6 +4,7 @@ tut/ShapeMaker/Main.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c 
 /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VAO.cpp \
 /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VBO.cpp \
 /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/shaderClass.cpp \
+/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/GUI.cpp \
 -o main -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
 -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
 
@@ -25,6 +26,7 @@ using namespace std;
 #include "VAO.h"
 #include "VBO.h"
 #include "EBO.h"
+#include "GUI.h"
 
 void takeInput(GLfloat vertices[]);
 
@@ -97,7 +99,8 @@ GLuint indices[] = {
     5, 7, 6
 };
 
-int main() 
+int main() {
+    //takeInput(vertices);
     // Initialize GLFW
     if (!glfwInit()) {
         std::cerr << "Failed to initialize GLFW" << std::endl;
@@ -167,6 +170,8 @@ int main()
     // Enables z-buffer so OpenGL knows which triangle texture goes on top of another
     glEnable(GL_DEPTH_TEST);
 
+    GUI testWindow;
+
     //Main loop
     while (!glfwWindowShouldClose(window)) {
         // Setting background
@@ -206,6 +211,8 @@ int main()
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
         int projLoc = glGetUniformLocation(shaderProgram.ID, "proj");
         glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
+
+        testWindow.Input(window);
 
         // Changes size of triangle
         //glUniform1f(uniID, 0.5f);
