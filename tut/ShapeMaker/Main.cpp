@@ -1,20 +1,23 @@
-//g++ -std=c++17 -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/glm \
-tut/ShapeMaker/Main.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c \
-/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/EBO.cpp \
-/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VAO.cpp \
-/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VBO.cpp \
-/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/shaderClass.cpp \
-/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/GUI.cpp \
--o main -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
--lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
+//g++ -std=c++17 \
+    -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include \
+    -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/glm \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/Main.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/EBO.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VAO.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VBO.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/shaderClass.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/GUI.cpp \
+    -o main \
+    -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
+    -lglfw3 \
+    -framework OpenGL \
+    -framework Cocoa \
+    -framework IOKit \
+    -framework CoreVideo
 
-
-#include <filesystem>
-namespace fs = std::filesystem;
-using namespace std;
 
 #include <iostream>
-#include <limits>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -100,7 +103,6 @@ GLuint indices[] = {
 };
 
 int main() {
-    //takeInput(vertices);
     // Initialize GLFW
     if (!glfwInit()) {
         std::cerr << "Failed to initialize GLFW" << std::endl;
@@ -126,6 +128,13 @@ int main() {
     // Putting the window into the current context
     glfwMakeContextCurrent(window);
 
+    // Initialize GLAD to load OpenGL function pointers
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        // Handle GLAD initialization failure
+        std::cerr << "Failed to initialize GLAD" << std::endl;
+        return -1;
+    }
+
     // Loading opengl configurations
     if (!gladLoadGL()) {
         std::cerr << "Failed to initialize GLAD" << std::endl;
@@ -138,24 +147,21 @@ int main() {
     glfwGetFramebufferSize(window, &width, &height);
     glViewport(0, 0, width, height);
 
+    // Create instance of GUI
+    GUI thing;
+
     // Generates Shader object using shaders default.vert and default.frag
     Shader shaderProgram("tut/ShapeMaker/default.vert", "tut/ShapeMaker/default.frag");
 
-    // Generates Vertex Array Object and binds it
+    // Create and bind VAO, VBO, and EBO objects
     VAO VAO1;
     VAO1.Bind();
-
-    // Generates Vertex Buffer Object and links it to vertices
     VBO VBO1(vertices, sizeof(vertices));
-    // Generates Element Buffer Object and links it to indices
     EBO EBO1(indices, sizeof(indices));
 
-    GLuint uniID = glGetUniformLocation(shaderProgram.ID, "scale");
-
-    // Links VBO to VAO
+    // Link VBO to VAO
     VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void *)0); // Position attribute
     VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void *)(3 * sizeof(float))); // Color attribute
-    //VAO1.LinkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void *)(6 * sizeof(float))); // Image Coords attribute // Image Coords attribute
 
     // Unbind all to prevent accidentally modifying them
     VAO1.Unbind();
@@ -170,10 +176,26 @@ int main() {
     // Enables z-buffer so OpenGL knows which triangle texture goes on top of another
     glEnable(GL_DEPTH_TEST);
 
-    GUI thing;
-
-    //Main loop
+    // Main loop
     while (!glfwWindowShouldClose(window)) {
+        // Render the GUI elements
+        thing.dropDown(window);
+
+        // Update cube rotation only if settings menu is not toggled
+        if (!thing.settingsMenuToggled) {
+            // Timer to update rotation
+            double crntTime = glfwGetTime();
+            if (crntTime - prevTime >= 1 / 60 ) {
+                rotationX += 0.5f;
+                rotationY += 0.5f;
+
+                // Ensure rotation angles stay within [0, 360) range
+                // rotationX = fmod(rotationX, 360.0f);
+                // rotationY = fmod(rotationY, 360.0f);
+                prevTime = crntTime;
+            }
+        }
+
         // Setting background
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         // Assign new background to back buffer
@@ -181,30 +203,18 @@ int main() {
         // Tell OpenGL which Shader Program we want to use
         shaderProgram.Activate();
 
-        // Timer to update rotation
-        double crntTime = glfwGetTime();
-        if (crntTime - prevTime >= 1 / 60 ) {
-            rotationX += 0.5f;
-            rotationY += 0.5f;
-
-            // Ensure rotation angles stay within [0, 360) range
-            // rotationX = fmod(rotationX, 360.0f);
-            // rotationY = fmod(rotationY, 360.0f);
-            prevTime = crntTime;
-        }
-
-        //Initialize matrices
+        // Initialize matrices
         glm::mat4 model = glm::mat4(1.0f);
         glm::mat4 view = glm::mat4(1.0f);
         glm::mat4 proj = glm::mat4(1.0f);
 
-        //Assign transformation to each matrix
+        // Assign transformation to each matrix
         model = glm::rotate(model, glm::radians(rotationY), glm::vec3(1.0f, 0.0f, 0.0f)); // x-axis rotation
         model = glm::rotate(model, glm::radians(rotationX), glm::vec3(0.0f, 1.0f, 0.0f)); // y-axis rotation     
         view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
         proj = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f);
 
-        //Outputs matrices into vertex shader
+        // Outputs matrices into vertex shader
         int modelLoc = glGetUniformLocation(shaderProgram.ID, "model");
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         int viewLoc = glGetUniformLocation(shaderProgram.ID, "view");
@@ -212,29 +222,11 @@ int main() {
         int projLoc = glGetUniformLocation(shaderProgram.ID, "proj");
         glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
 
-        thing.Input(window);
-
-        // Changes size of triangle
-        //glUniform1f(uniID, 0.5f);
         // Bind the VAO so OpenGL knows to use it
         VAO1.Bind();
         glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(int), GL_UNSIGNED_INT, 0);
 
-        // Check for OpenGL errors
-        GLenum error = glGetError();
-        if (error != GL_NO_ERROR) {
-            std::cerr << "OpenGL Error before swapping buffers: " << error << std::endl;
-        }
-
-        // Swap back and front buffers
         glfwSwapBuffers(window);
-
-        // Check for OpenGL errors
-        error = glGetError();
-        if (error != GL_NO_ERROR) {
-            std::cerr << "OpenGL Error after swapping buffers: " << error << std::endl;
-        }
-
         glfwPollEvents();
     }
 
@@ -248,21 +240,4 @@ int main() {
     // Terminate GLFW before ending the program
     glfwTerminate();
     return 0;
-}
-
-void takeInput(GLfloat vertices[]) {
-    std::cout << "Enter colors (R, G, B) for each vertex:" << std::endl;
-    for(int i = 0; i < 8; ++i) {
-        std::cout << "Vertex " << i << ": ";
-        if (!(std::cin >> vertices[i * 8 + 3] >> vertices[i * 8 + 4] >> vertices[i * 8 + 5])) {
-            std::cerr << "Invalid input. Please enter valid float values." << std::endl;
-            // Clear the input stream and ignore the invalid input
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            // Decrement i to retry input for the same index
-            --i;
-        }
-        // Clear the remaining characters from the input buffer, including the newline
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    }
 }

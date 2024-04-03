@@ -5,11 +5,12 @@
 #include<GLFW/glfw3.h>
 
 class GUI
-{
+{   
 public:
+    bool showImGuiWindow = false; // Declaration of showImGuiWindow variable
+    bool settingsMenuToggled = false; // Add a flag to track settings menu toggling
     GUI();
-    void Input(GLFWwindow* window);
-    void dropDown();
+    void dropDown(GLFWwindow* window);
 };
 
 #endif
