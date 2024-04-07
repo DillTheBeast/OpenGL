@@ -34,7 +34,7 @@ using namespace std;
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>  // Main ImGui header
-#include <imgui_internal.h>  // Internal ImGui functions, not usually needed for basic usage
+//#include <imgui_internal.h>  // Internal ImGui functions, not usually needed for basic usage
 #include <backends/imgui_impl_opengl3.h>  // ImGui OpenGL3 backend
 #include <backends/imgui_impl_glfw.h>  // ImGui GLFW backend
 
