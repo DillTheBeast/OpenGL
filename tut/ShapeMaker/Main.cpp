@@ -1,17 +1,12 @@
 //g++ -std=c++17 \
     -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include \
     -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/glm \
-    -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui-full \
-    -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui-full/backends \
     tut/ShapeMaker/Main.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/EBO.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VAO.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VBO.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/shaderClass.cpp \
-    /Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui-full/imgui.cpp \
-    /Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui-full/backends/imgui_impl_opengl3.cpp \
-    /Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui-full/backends/imgui_impl_glfw.cpp \
     -o main \
     -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
     -lglfw3 \
@@ -33,11 +28,10 @@ using namespace std;
 #include <glm/vec3.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <imgui.h>  // Main ImGui header
-//#include <imgui_internal.h>  // Internal ImGui functions, not usually needed for basic usage
-#include <backends/imgui_impl_opengl3.h>  // ImGui OpenGL3 backend
-#include <backends/imgui_impl_glfw.h>  // ImGui GLFW backend
 
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 
 #include "shaderClass.h"
 #include "VAO.h"
@@ -156,18 +150,6 @@ int main() {
         return -1;
     }
 
-    // Setup ImGui context
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-
-    // Setup ImGui style
-    ImGui::StyleColorsDark();
-
-    // Setup Platform/Renderer bindings
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init("#version 130");
-
     // Tell opengl the area of the window
     // Bottom left --> top right
     int width, height;
@@ -209,10 +191,6 @@ int main() {
     //Main loop
     while (!glfwWindowShouldClose(window)) {
         keyPress(window);
-
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
         // Setting background
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         // Assign new background to back buffer
@@ -259,11 +237,7 @@ int main() {
             glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(int), GL_UNSIGNED_INT, 0);
         
         else {
-            ImGui::Begin("Cube Visibility");
-            if (ImGui::Button("Show Cube")) {
-                cubeVisible = true;
-            }
-            ImGui::End();
+
         }
 
         // Check for OpenGL errors
@@ -281,21 +255,12 @@ int main() {
             std::cerr << "OpenGL Error after swapping buffers: " << error << std::endl;
         }
 
-        // Render ImGui widgets
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
         // Swap buffers and poll events
         glfwSwapBuffers(window);
         glfwPollEvents();
 
         glfwPollEvents();
     }
-
-    // Cleanup
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
     // Delete all the objects we've created
     VAO1.Delete();
     VBO1.Delete();
