@@ -1,9 +1,12 @@
-//g++ -std=c++17 -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/glm \
+//g++ -std=c++17 -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/glm -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui\
 tut/ShapeMaker/Main.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c \
 /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/EBO.cpp \
 /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VAO.cpp \
 /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VBO.cpp \
 /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/shaderClass.cpp \
+/Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui_impl_glfw.cpp \
+/Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui_impl_opengl3.cpp \
+/Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui.cpp \
 -o main -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
 -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
 
@@ -20,6 +23,10 @@ using namespace std;
 #include <glm/vec3.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+// #include <imgui.h>
+// #include <imgui_impl_glfw.h>
+// #include <imgui_impl_opengl3.h>
+
 
 #include "shaderClass.h"
 #include "VAO.h"
@@ -103,7 +110,7 @@ void keyPress(GLFWwindow* window) {
         cubeVisible = !cubeVisible;
 }
 
-int main() 
+int main() {
     // Initialize GLFW
     if (!glfwInit()) {
         std::cerr << "Failed to initialize GLFW" << std::endl;
@@ -152,8 +159,6 @@ int main()
     VBO VBO(vertices, sizeof(vertices));
     // Generates Element Buffer Object and links it to indices
     EBO EBO(indices, sizeof(indices));
-
-    GLuint uniID = glGetUniformLocation(shaderProgram.ID, "scale");
 
     // Links VBO to VAO
     VAO.LinkAttrib(VBO, 0, 3, GL_FLOAT, 8 * sizeof(float), (void *)0); // Position attribute
@@ -219,6 +224,9 @@ int main()
         VAO.Bind();
         if (cubeVisible)
             glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(int), GL_UNSIGNED_INT, 0);
+        
+        else {
+        }
 
         // Check for OpenGL errors
         GLenum error = glGetError();
