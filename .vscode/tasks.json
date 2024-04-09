@@ -1,43 +1,49 @@
-{
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "build",
-            "type": "shell",
-            "command": "g++",
-            "args": [
-                "-I/Users/dillonmaltese/Documents/GitHub/OpenGL/include",
-                "tut/main.cpp",
-                "/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c",
-                "-o",
-                "main",
-                "-L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib",
-                "-lglfw3",
-                "-framework",
-                "OpenGL",
-                "-framework",
-                "Cocoa",
-                "-framework",
-                "IOKit",
-                "-framework",
-                "CoreVideo"
-            ],
-            "group": "build",
-            "problemMatcher": {
-                "owner": "cpp",
-                "fileLocation": [
-                    "absolute"
-                ],
-                "pattern": {
-                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-                    "file": 1,
-                    "line": 2,
-                    "column": 3,
-                    "severity": 4,
-                    "message": 5
-                }
-            },
-            "isDefault": true // This makes this task the default one
-        }
-    ]
-}
+// {
+//     "version": "2.0.0",
+//     "tasks": [
+//         {
+//             "label": "build",
+//             "type": "shell",
+//             "command": "g++",
+//             "args": [
+//                 "-std=c++17",
+//                 "-I/Users/dillonmaltese/Documents/GitHub/OpenGL/include",
+//                 "-I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/glm",
+//                 "${file}",
+//                 "/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c",
+//                 "/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/EBO.cpp",
+//                 "/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VAO.cpp",
+//                 "/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VBO.cpp",
+//                 "/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/shaderClass.cpp",
+//                 "-o",
+//                 "${fileDirname}/output/${fileBasenameNoExtension}"
+//             ],
+//             "group": {
+//                 "kind": "build",
+//                 "isDefault": true
+//             },
+//             "presentation": {
+//                 "echo": true,
+//                 "reveal": "always",
+//                 "focus": false,
+//                 "panel": "shared",
+//                 "showReuseMessage": true,
+//                 "clear": true
+//             },
+//             "problemMatcher": {
+//                 "owner": "cpp",
+//                 "fileLocation": [
+//                     "absolute"
+//                 ],
+//                 "pattern": {
+//                     "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+//                     "file": 1,
+//                     "line": 2,
+//                     "column": 3,
+//                     "severity": 4,
+//                     "message": 5
+//                 }
+//             }
+//         }
+//     ]
+// }

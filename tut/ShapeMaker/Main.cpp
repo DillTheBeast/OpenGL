@@ -1,19 +1,11 @@
-//g++ -std=c++17 \
-    -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include \
-    -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/glm \
-    tut/ShapeMaker/Main.cpp \
-    /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c \
-    /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/EBO.cpp \
-    /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VAO.cpp \
-    /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VBO.cpp \
-    /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/shaderClass.cpp \
-    -o main \
-    -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
-    -lglfw3 \
-    -framework OpenGL \
-    -framework Cocoa \
-    -framework IOKit \
-    -framework CoreVideo
+//g++ -std=c++17 -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/glm \
+tut/ShapeMaker/Main.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c \
+/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/EBO.cpp \
+/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VAO.cpp \
+/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VBO.cpp \
+/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/shaderClass.cpp \
+-o main -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
+-lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
 
 
 #include <filesystem>
@@ -29,16 +21,13 @@ using namespace std;
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
-
 #include "shaderClass.h"
 #include "VAO.h"
 #include "VBO.h"
 #include "EBO.h"
 
 void takeInput(GLfloat vertices[]);
+bool cubeVisible = true;
 
 // Vertices coordinates (Goes from -1 to 1)
 GLfloat vertices[] = {
@@ -109,15 +98,12 @@ GLuint indices[] = {
     5, 7, 6
 };
 
-bool cubeVisible = true;
-
 void keyPress(GLFWwindow* window) {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         cubeVisible = !cubeVisible;
-    }
 }
 
-int main() {
+int main() 
     // Initialize GLFW
     if (!glfwInit()) {
         std::cerr << "Failed to initialize GLFW" << std::endl;
@@ -142,7 +128,6 @@ int main() {
 
     // Putting the window into the current context
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
 
     // Loading opengl configurations
     if (!gladLoadGL()) {
@@ -160,25 +145,25 @@ int main() {
     Shader shaderProgram("tut/ShapeMaker/default.vert", "tut/ShapeMaker/default.frag");
 
     // Generates Vertex Array Object and binds it
-    VAO VAO1;
-    VAO1.Bind();
+    VAO VAO;
+    VAO.Bind();
 
     // Generates Vertex Buffer Object and links it to vertices
-    VBO VBO1(vertices, sizeof(vertices));
+    VBO VBO(vertices, sizeof(vertices));
     // Generates Element Buffer Object and links it to indices
-    EBO EBO1(indices, sizeof(indices));
+    EBO EBO(indices, sizeof(indices));
 
     GLuint uniID = glGetUniformLocation(shaderProgram.ID, "scale");
 
     // Links VBO to VAO
-    VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void *)0); // Position attribute
-    VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void *)(3 * sizeof(float))); // Color attribute
+    VAO.LinkAttrib(VBO, 0, 3, GL_FLOAT, 8 * sizeof(float), (void *)0); // Position attribute
+    VAO.LinkAttrib(VBO, 1, 3, GL_FLOAT, 8 * sizeof(float), (void *)(3 * sizeof(float))); // Color attribute
     //VAO1.LinkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void *)(6 * sizeof(float))); // Image Coords attribute // Image Coords attribute
 
     // Unbind all to prevent accidentally modifying them
-    VAO1.Unbind();
-    VBO1.Unbind();
-    EBO1.Unbind();
+    VAO.Unbind();
+    VBO.Unbind();
+    EBO.Unbind();
 
     // Creating rotation variables
     float rotationX = 0.0f;
@@ -203,7 +188,6 @@ int main() {
         if (crntTime - prevTime >= 1 / 60 ) {
             rotationX += 0.5f;
             rotationY += 0.5f;
-
             // Ensure rotation angles stay within [0, 360) range
             // rotationX = fmod(rotationX, 360.0f);
             // rotationY = fmod(rotationY, 360.0f);
@@ -232,13 +216,9 @@ int main() {
         // Changes size of triangle
         //glUniform1f(uniID, 0.5f);
         // Bind the VAO so OpenGL knows to use it
-        VAO1.Bind();
-        if(cubeVisible)
+        VAO.Bind();
+        if (cubeVisible)
             glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(int), GL_UNSIGNED_INT, 0);
-        
-        else {
-
-        }
 
         // Check for OpenGL errors
         GLenum error = glGetError();
@@ -255,16 +235,13 @@ int main() {
             std::cerr << "OpenGL Error after swapping buffers: " << error << std::endl;
         }
 
-        // Swap buffers and poll events
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-
         glfwPollEvents();
     }
+
     // Delete all the objects we've created
-    VAO1.Delete();
-    VBO1.Delete();
-    EBO1.Delete();
+    VAO.Delete();
+    VBO.Delete();
+    EBO.Delete();
     shaderProgram.Delete();
     // Delete window before ending the program
     glfwDestroyWindow(window);
