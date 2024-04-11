@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		621DEB0C2BC827D600A93FDB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 621DEB0B2BC827D600A93FDB /* main.cpp */; };
 		621DEB142BC828BB00A93FDB /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 621DEB132BC828BB00A93FDB /* OpenGL.framework */; };
-		621DEB162BC84B9E00A93FDB /* libglfw.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 621DEB152BC84B9E00A93FDB /* libglfw.3.dylib */; };
+		621DEB172BC8ABF000A93FDB /* libglfw.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 621DEB152BC84B9E00A93FDB /* libglfw.3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,7 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				621DEB162BC84B9E00A93FDB /* libglfw.3.dylib in Frameworks */,
+				621DEB172BC8ABF000A93FDB /* libglfw.3.dylib in Frameworks */,
 				621DEB142BC828BB00A93FDB /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
