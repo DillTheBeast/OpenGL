@@ -1,15 +1,18 @@
-//g++ -std=c++17 -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/glm -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui\
-tut/ShapeMaker/Main.cpp /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c \
-/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/EBO.cpp \
-/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VAO.cpp \
-/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VBO.cpp \
-/Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/shaderClass.cpp \
-/Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui_impl_glfw.cpp \
+//g++ -std=c++17 -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include \
+    -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/glm \
+    -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/Main.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/EBO.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VAO.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/VBO.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/shaderClass.cpp \
+    -o main -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
+    -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
+
+// /Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui_impl_glfw.cpp \
 /Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui_impl_opengl3.cpp \
 /Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui.cpp \
--o main -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
--lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
-
 
 #include <filesystem>
 namespace fs = std::filesystem;
@@ -23,6 +26,7 @@ using namespace std;
 #include <glm/vec3.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
 // #include <imgui.h>
 // #include <imgui_impl_glfw.h>
 // #include <imgui_impl_opengl3.h>
@@ -108,6 +112,46 @@ GLuint indices[] = {
 void keyPress(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         cubeVisible = !cubeVisible;
+}
+void renderButtons(GLFWwindow* window) { /*
+    int width, height;
+    glfwGetFramebufferSize(window, &width, &height);
+
+    // Set up orthographic projection for 2D rendering
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0.0, width, 0.0, height, -1.0, 1.0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    // Set the color for the buttons
+    glColor3f(0.5f, 0.5f, 0.5f); // Gray color for buttons
+
+    // Draw the "Quit" button
+    glBegin(GL_QUADS);
+    glVertex2i(width - 100, height - 30);
+    glVertex2i(width - 10, height - 30);
+    glVertex2i(width - 10, height - 60);
+    glVertex2i(width - 100, height - 60);
+    glEnd();
+
+    // Draw the "Show/Hide Cube" button
+    glBegin(GL_QUADS);
+    glVertex2i(width - 100, height - 70);
+    glVertex2i(width - 10, height - 70);
+    glVertex2i(width - 10, height - 100);
+    glVertex2i(width - 100, height - 100);
+    glEnd();
+
+    // Set the color for the text
+    glColor3f(1.0f, 1.0f, 1.0f); // White color for text
+
+    // Render text for the "Quit" button
+    glfwSetWindowTitle(window, "Quit");
+
+    // Render text for the "Show/Hide Cube" button
+    glfwSetWindowTitle(window, "Show/Hide Cube");
+    */
 }
 
 int main() {
@@ -222,11 +266,8 @@ int main() {
         //glUniform1f(uniID, 0.5f);
         // Bind the VAO so OpenGL knows to use it
         VAO.Bind();
-        if (cubeVisible)
-            glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(int), GL_UNSIGNED_INT, 0);
-        
-        else {
-        }
+        glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(int), GL_UNSIGNED_INT, 0);
+        renderButtons(window);
 
         // Check for OpenGL errors
         GLenum error = glGetError();
