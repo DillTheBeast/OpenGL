@@ -1,0 +1,1 @@
+/opt/homebrew/bin/aarch64-apple-darwin23-g++-13 -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -dynamiclib -Wl,-headerpad_max_install_names -o libglm_shared.dylib -install_name @rpath/libglm_shared.dylib CMakeFiles/glm_shared.dir/detail/glm.cpp.o 

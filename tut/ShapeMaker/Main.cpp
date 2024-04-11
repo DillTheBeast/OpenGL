@@ -15,7 +15,7 @@
 /Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui.cpp \
 
 #include <filesystem>
-namespace fs = std::filesystem;
+//namespace fs = std::filesystem;
 using namespace std;
 
 #include <iostream>
