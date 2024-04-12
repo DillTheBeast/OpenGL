@@ -1,6 +1,6 @@
 //g++ -std=c++17 -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include \
     -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/glm \
-    -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui \
+    -I/Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui-master \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/Main.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/EBO.cpp \
@@ -9,10 +9,6 @@
     /Users/dillonmaltese/Documents/GitHub/OpenGL/tut/ShapeMaker/shaderClass.cpp \
     -o main -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
     -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
-
-// /Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui_impl_glfw.cpp \
-/Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui_impl_opengl3.cpp \
-/Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui.cpp \
 
 #include <filesystem>
 //namespace fs = std::filesystem;
@@ -27,10 +23,14 @@ using namespace std;
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-// #include <imgui.h>
-// #include <imgui_impl_glfw.h>
-// #include <imgui_impl_opengl3.h>
+#include <imgui-master/imgui.h>
+#include <imgui-master/backends/imgui_impl_glfw.h>
+#include <imgui-master/backends/imgui_impl_opengl3.h>
 
+
+//    /Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui_impl_glfw.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui_impl_opengl3.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui.cpp \
 
 #include "shaderClass.h"
 #include "VAO.h"
