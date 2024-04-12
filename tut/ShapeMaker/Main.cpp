@@ -27,11 +27,6 @@ using namespace std;
 #include <imgui-master/backends/imgui_impl_glfw.h>
 #include <imgui-master/backends/imgui_impl_opengl3.h>
 
-
-//    /Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui_impl_glfw.cpp \
-    /Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui_impl_opengl3.cpp \
-    /Users/dillonmaltese/Documents/GitHub/OpenGL/include/imgui/imgui.cpp \
-
 #include "shaderClass.h"
 #include "VAO.h"
 #include "VBO.h"
@@ -113,45 +108,8 @@ void keyPress(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         cubeVisible = !cubeVisible;
 }
-void renderButtons(GLFWwindow* window) { /*
-    int width, height;
-    glfwGetFramebufferSize(window, &width, &height);
+void renderButtons(GLFWwindow* window) { 
 
-    // Set up orthographic projection for 2D rendering
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0.0, width, 0.0, height, -1.0, 1.0);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    // Set the color for the buttons
-    glColor3f(0.5f, 0.5f, 0.5f); // Gray color for buttons
-
-    // Draw the "Quit" button
-    glBegin(GL_QUADS);
-    glVertex2i(width - 100, height - 30);
-    glVertex2i(width - 10, height - 30);
-    glVertex2i(width - 10, height - 60);
-    glVertex2i(width - 100, height - 60);
-    glEnd();
-
-    // Draw the "Show/Hide Cube" button
-    glBegin(GL_QUADS);
-    glVertex2i(width - 100, height - 70);
-    glVertex2i(width - 10, height - 70);
-    glVertex2i(width - 10, height - 100);
-    glVertex2i(width - 100, height - 100);
-    glEnd();
-
-    // Set the color for the text
-    glColor3f(1.0f, 1.0f, 1.0f); // White color for text
-
-    // Render text for the "Quit" button
-    glfwSetWindowTitle(window, "Quit");
-
-    // Render text for the "Show/Hide Cube" button
-    glfwSetWindowTitle(window, "Show/Hide Cube");
-    */
 }
 
 int main() {
