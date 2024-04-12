@@ -1,1 +1,0 @@
-/opt/homebrew/bin/aarch64-apple-darwin23-g++-13 -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names "CMakeFiles/test-core_force_arch_unknown.dir/core_force_arch_unknown.cpp.o" -o test-core_force_arch_unknown 

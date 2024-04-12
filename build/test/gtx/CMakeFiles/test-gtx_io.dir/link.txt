@@ -1,1 +1,0 @@
-/opt/homebrew/bin/aarch64-apple-darwin23-g++-13 -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names "CMakeFiles/test-gtx_io.dir/gtx_io.cpp.o" -o test-gtx_io 
