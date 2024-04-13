@@ -1,25 +1,33 @@
 {
   "version": "0.2.0",
   "configurations": [
-      {
-          "name": "Debug",
-          "type": "cppdbg",
-          "request": "launch",
-          "program": "${workspaceFolder}/main",
-          "args": [],
-          "stopAtEntry": false,
-          "cwd": "${workspaceFolder}",
-          "environment": [],
-          "externalConsole": false,
-          "MIMode": "lldb",
-          "setupCommands": [
-              {
-                  "description": "Enable pretty-printing for gdb",
-                  "text": "-enable-pretty-printing",
-                  "ignoreFailures": true
-              }
-          ],
-          "preLaunchTask": "build"
-      }
+    {
+      "name": "Debug",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/main",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "build"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker",
+      "program": "/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/build/Debug/outDebug"
+    }
   ]
 }
