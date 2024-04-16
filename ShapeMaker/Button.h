@@ -1,13 +1,21 @@
-#ifndef BUTTON_CLASS_H
-#define BUTTON_CLASS_H
+#ifndef BUTTON_H
+#define BUTTON_H
 
-#include<glad/glad.h>
+#include <glm/glm.hpp>
 
-class Button
-{
-    public:
+class Button {
+public:
+    Button(float x, float y, float width, float height);
 
-    Button(, float r, float g, float b);
+    void render();
+    bool isMouseOver(double mouseX, double mouseY) const;
+    bool isClicked(double mouseX, double mouseY, int action) const;
+    void toggleVisibility() { visible = !visible; }
+    bool visible = false;
+
+private:
+    glm::vec2 position;
+    float width, height;
 };
 
-#endif
+#endif // BUTTON_H

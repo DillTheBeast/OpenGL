@@ -5,19 +5,12 @@
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/VAO.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/VBO.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/shaderClass.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/Button.cpp \
     -o main \
     -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include \
     -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/glm \
     -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
     -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
-
-
-//g++ -c /Users/dillonmaltese/Documents/Github/OpenGL/ShapeMaker/include/imgui/imgui.cpp -o imgui.o
-//    -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui \
-    /Users/dillonmaltese/Documents/GitHub/OpenGL/imgui.o
-#include <filesystem>
-//namespace fs = std::filesystem;
-using namespace std;
 
 #include <iostream>
 #include <limits>
@@ -32,9 +25,11 @@ using namespace std;
 #include "VAO.h"
 #include "VBO.h"
 #include "EBO.h"
-// #include "imgui-master/imgui.h"
+#include "Button.h"
 
 bool cubeVisible = true;
+bool keyPressed = false;
+Button button(0.0f, 0.0f, 4.0f, 20.0f);
 
 // Vertices coordinates (Goes from -1 to 1)
 GLfloat vertices[] = {
@@ -105,9 +100,19 @@ GLuint indices[] = {
     5, 7, 6
 };
 
-void keyPress(GLFWwindow* window) {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        cubeVisible = !cubeVisible;
+void keyPress(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS && !keyPressed) {
+        // Only execute this code block if the SPACE key was pressed and it wasn't already held down
+        // Perform action associated with key press here
+        // For example, toggle the visibility of the button
+        button.toggleVisibility();
+
+        // Set the flag to true to indicate that the key is currently being held down
+        keyPressed = true;
+    } else if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
+        // When the SPACE key is released, reset the flag
+        keyPressed = false;
+    }
 }
 
 int main() {
@@ -149,7 +154,7 @@ int main() {
     glViewport(0, 0, width, height);
 
     // Generates Shader object using shaders default.vert and default.frag
-    Shader shaderProgram("tut/ShapeMaker/default.vert", "tut/ShapeMaker/default.frag");
+    Shader shaderProgram("ShapeMaker/default.vert", "ShapeMaker/default.frag");
 
     // Generates Vertex Array Object and binds it
     VAO VAO;
@@ -180,47 +185,67 @@ int main() {
 
     //Main loop
     while (!glfwWindowShouldClose(window)) {
-        // Poll for events
         glfwPollEvents();
+        // Get key state and retrieve key, scancode, action, and mods
+        int key = -1, scancode = -1, action = -1, mods = -1;
+        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+            key = GLFW_KEY_SPACE;
+            action = GLFW_PRESS;
+            // You can set other values such as scancode and mods here if needed
+        } else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE) {
+            key = GLFW_KEY_SPACE;
+            action = GLFW_RELEASE;
+            // You can set other values such as scancode and mods here if needed
+        }
+        keyPress(window, key, scancode, action, mods);
 
-        // Clear the background
-        glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+        // Call the keyPress function with the obtained parameters
+        keyPress(window, key, scancode, action, mods);
+        glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Activate shader program
-        shaderProgram.Activate();
+        if (!button.visible) {
+            std::cout << "Cube visible" << std::endl;
+            // Render cube
+            // Activate shader program
+            shaderProgram.Activate();
 
-        // Update rotation
-        double currentTime = glfwGetTime();
-        if (currentTime - prevTime >= 1 / 60) {
-            rotationX += 0.5f;
-            rotationY += 0.5f;
-            prevTime = currentTime;
-        }
+            // Update rotation
+            double currentTime = glfwGetTime();
+            if (currentTime - prevTime >= 1 / 60) {
+                rotationX += 0.5f;
+                rotationY += 0.5f;
+                prevTime = currentTime;
+            }
 
-        // Initialize matrices
-        glm::mat4 model = glm::mat4(1.0f);
-        glm::mat4 view = glm::mat4(1.0f);
-        glm::mat4 proj = glm::mat4(1.0f);
+            // Initialize matrices
+            glm::mat4 model = glm::mat4(1.0f);
+            glm::mat4 view = glm::mat4(1.0f);
+            glm::mat4 proj = glm::mat4(1.0f);
 
-        // Assign transformations
-        model = glm::rotate(model, glm::radians(rotationY), glm::vec3(1.0f, 0.0f, 0.0f));
-        model = glm::rotate(model, glm::radians(rotationX), glm::vec3(0.0f, 1.0f, 0.0f));
-        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
-        proj = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f);
+            // Assign transformations
+            model = glm::rotate(model, glm::radians(rotationY), glm::vec3(1.0f, 0.0f, 0.0f));
+            model = glm::rotate(model, glm::radians(rotationX), glm::vec3(0.0f, 1.0f, 0.0f));
+            view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
+            proj = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f);
 
-        // Pass matrices to vertex shader
-        int modelLoc = glGetUniformLocation(shaderProgram.ID, "model");
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        int viewLoc = glGetUniformLocation(shaderProgram.ID, "view");
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-        int projLoc = glGetUniformLocation(shaderProgram.ID, "proj");
-        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
+            // Pass matrices to vertex shader
+            int modelLoc = glGetUniformLocation(shaderProgram.ID, "model");
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            int viewLoc = glGetUniformLocation(shaderProgram.ID, "view");
+            glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+            int projLoc = glGetUniformLocation(shaderProgram.ID, "proj");
+            glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
 
-        // Bind VAO
-        VAO.Bind();
-        if (cubeVisible)
+            // Bind VAO
+            VAO.Bind();
             glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
+        } else {
+            std::cout << "Button visible" << std::endl;
+            // Render button
+            Button button(0.0f, 0.0f, 4.0f, 20.0f);
+            button.render();
+        }
 
         // Swap buffers
         glfwSwapBuffers(window);
