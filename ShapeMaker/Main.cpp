@@ -29,7 +29,6 @@
 
 bool cubeVisible = true;
 bool keyPressed = false;
-Button button(0.0f, 0.0f, 4.0f, 20.0f);
 
 // Vertices coordinates (Goes from -1 to 1)
 GLfloat vertices[] = {
@@ -100,22 +99,30 @@ GLuint indices[] = {
     5, 7, 6
 };
 
-void keyPress(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS && !keyPressed) {
-        // Only execute this code block if the SPACE key was pressed and it wasn't already held down
-        // Perform action associated with key press here
-        // For example, toggle the visibility of the button
-        button.toggleVisibility();
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+    glViewport(0, 0, width, height);
+}
 
-        // Set the flag to true to indicate that the key is currently being held down
-        keyPressed = true;
-    } else if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
-        // When the SPACE key is released, reset the flag
-        keyPressed = false;
+void mouse_button_callback(GLFWwindow* window, Button button, int action, int mods) {
+    double xpos, ypos;
+    glfwGetCursorPos(window, &xpos, &ypos);
+
+    // Convert mouse coordinates to OpenGL coordinates
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
+    xpos = (xpos / width) * 2 - 1;
+    ypos = ((height - ypos) / height) * 2 - 1;
+
+    // Check if the button is clicked
+    if (action == GLFW_PRESS && button.isClicked(xpos, ypos)) {
+        std::cout << "Button clicked!" << std::endl;
     }
 }
 
+
 int main() {
+    Button button(0.0f, 0.0f, 200.0f, 50.0f, "Click Me");
+
     // Initialize GLFW
     if (!glfwInit()) {
         std::cerr << "Failed to initialize GLFW" << std::endl;
@@ -186,25 +193,11 @@ int main() {
     //Main loop
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
-        // Get key state and retrieve key, scancode, action, and mods
-        int key = -1, scancode = -1, action = -1, mods = -1;
-        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-            key = GLFW_KEY_SPACE;
-            action = GLFW_PRESS;
-            // You can set other values such as scancode and mods here if needed
-        } else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE) {
-            key = GLFW_KEY_SPACE;
-            action = GLFW_RELEASE;
-            // You can set other values such as scancode and mods here if needed
-        }
-        keyPress(window, key, scancode, action, mods);
-
         // Call the keyPress function with the obtained parameters
-        keyPress(window, key, scancode, action, mods);
         glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        if (!button.visible) {
+        //if (!button.visible) {
             std::cout << "Cube visible" << std::endl;
             // Render cube
             // Activate shader program
@@ -240,12 +233,8 @@ int main() {
             // Bind VAO
             VAO.Bind();
             glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
-        } else {
-            std::cout << "Button visible" << std::endl;
-            // Render button
-            Button button(0.0f, 0.0f, 4.0f, 20.0f);
             button.render();
-        }
+        //}
 
         // Swap buffers
         glfwSwapBuffers(window);
