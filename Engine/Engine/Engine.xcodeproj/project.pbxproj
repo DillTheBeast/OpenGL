@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		62A700F82BD350DC00CC9A39 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A700F72BD350DC00CC9A39 /* main.cpp */; };
-		62A701002BD3525400CC9A39 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A700FF2BD3525400CC9A39 /* OpenGL.framework */; };
-		62A701062BD363C600CC9A39 /* libglfw.3.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A701032BD362D900CC9A39 /* libglfw.3.4.dylib */; };
+		620C001A2BD5813200F17431 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 620C00192BD5813200F17431 /* main.cpp */; };
+		620C00222BD5820800F17431 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 620C00212BD5820800F17431 /* OpenGL.framework */; };
+		620C00242BD5822F00F17431 /* libglfw.3.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 620C00232BD5822F00F17431 /* libglfw.3.4.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		62A700F22BD350DC00CC9A39 /* CopyFiles */ = {
+		620C00142BD5813200F17431 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -25,55 +25,55 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		62A700F42BD350DC00CC9A39 /* Engine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Engine; sourceTree = BUILT_PRODUCTS_DIR; };
-		62A700F72BD350DC00CC9A39 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		62A700FF2BD3525400CC9A39 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		62A701032BD362D900CC9A39 /* libglfw.3.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.4.dylib; path = ../../../../../../opt/homebrew/Cellar/glfw/3.4/lib/libglfw.3.4.dylib; sourceTree = "<group>"; };
+		620C00162BD5813200F17431 /* Engine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Engine; sourceTree = BUILT_PRODUCTS_DIR; };
+		620C00192BD5813200F17431 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		620C00212BD5820800F17431 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		620C00232BD5822F00F17431 /* libglfw.3.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.4.dylib; path = ../../../../../../../opt/homebrew/Cellar/glfw/3.4/lib/libglfw.3.4.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		62A700F12BD350DC00CC9A39 /* Frameworks */ = {
+		620C00132BD5813200F17431 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				62A701062BD363C600CC9A39 /* libglfw.3.4.dylib in Frameworks */,
-				62A701002BD3525400CC9A39 /* OpenGL.framework in Frameworks */,
+				620C00242BD5822F00F17431 /* libglfw.3.4.dylib in Frameworks */,
+				620C00222BD5820800F17431 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		62A700EB2BD350DC00CC9A39 = {
+		620C000D2BD5813200F17431 = {
 			isa = PBXGroup;
 			children = (
-				62A700F62BD350DC00CC9A39 /* Engine */,
-				62A700F52BD350DC00CC9A39 /* Products */,
-				62A700FE2BD3525400CC9A39 /* Frameworks */,
+				620C00182BD5813200F17431 /* Engine */,
+				620C00172BD5813200F17431 /* Products */,
+				620C00202BD5820800F17431 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		62A700F52BD350DC00CC9A39 /* Products */ = {
+		620C00172BD5813200F17431 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				62A700F42BD350DC00CC9A39 /* Engine */,
+				620C00162BD5813200F17431 /* Engine */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		62A700F62BD350DC00CC9A39 /* Engine */ = {
+		620C00182BD5813200F17431 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
-				62A700F72BD350DC00CC9A39 /* main.cpp */,
+				620C00192BD5813200F17431 /* main.cpp */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
 		};
-		62A700FE2BD3525400CC9A39 /* Frameworks */ = {
+		620C00202BD5820800F17431 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				62A701032BD362D900CC9A39 /* libglfw.3.4.dylib */,
-				62A700FF2BD3525400CC9A39 /* OpenGL.framework */,
+				620C00232BD5822F00F17431 /* libglfw.3.4.dylib */,
+				620C00212BD5820800F17431 /* OpenGL.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -81,13 +81,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		62A700F32BD350DC00CC9A39 /* Engine */ = {
+		620C00152BD5813200F17431 /* Engine */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 62A700FB2BD350DC00CC9A39 /* Build configuration list for PBXNativeTarget "Engine" */;
+			buildConfigurationList = 620C001D2BD5813200F17431 /* Build configuration list for PBXNativeTarget "Engine" */;
 			buildPhases = (
-				62A700F02BD350DC00CC9A39 /* Sources */,
-				62A700F12BD350DC00CC9A39 /* Frameworks */,
-				62A700F22BD350DC00CC9A39 /* CopyFiles */,
+				620C00122BD5813200F17431 /* Sources */,
+				620C00132BD5813200F17431 /* Frameworks */,
+				620C00142BD5813200F17431 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -95,24 +95,24 @@
 			);
 			name = Engine;
 			productName = Engine;
-			productReference = 62A700F42BD350DC00CC9A39 /* Engine */;
+			productReference = 620C00162BD5813200F17431 /* Engine */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		62A700EC2BD350DC00CC9A39 /* Project object */ = {
+		620C000E2BD5813200F17431 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
-					62A700F32BD350DC00CC9A39 = {
+					620C00152BD5813200F17431 = {
 						CreatedOnToolsVersion = 15.3;
 					};
 				};
 			};
-			buildConfigurationList = 62A700EF2BD350DC00CC9A39 /* Build configuration list for PBXProject "Engine" */;
+			buildConfigurationList = 620C00112BD5813200F17431 /* Build configuration list for PBXProject "Engine" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -120,29 +120,29 @@
 				en,
 				Base,
 			);
-			mainGroup = 62A700EB2BD350DC00CC9A39;
-			productRefGroup = 62A700F52BD350DC00CC9A39 /* Products */;
+			mainGroup = 620C000D2BD5813200F17431;
+			productRefGroup = 620C00172BD5813200F17431 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				62A700F32BD350DC00CC9A39 /* Engine */,
+				620C00152BD5813200F17431 /* Engine */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		62A700F02BD350DC00CC9A39 /* Sources */ = {
+		620C00122BD5813200F17431 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				62A700F82BD350DC00CC9A39 /* main.cpp in Sources */,
+				620C001A2BD5813200F17431 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		62A700F92BD350DC00CC9A39 /* Debug */ = {
+		620C001B2BD5813200F17431 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -194,8 +194,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /opt/homebrew/Cellar/glfw/3.4/include;
-				LIBRARY_SEARCH_PATHS = /opt/homebrew/Cellar/glfw/3.4/lib;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -205,7 +203,7 @@
 			};
 			name = Debug;
 		};
-		62A700FA2BD350DC00CC9A39 /* Release */ = {
+		620C001C2BD5813200F17431 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -251,8 +249,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /opt/homebrew/Cellar/glfw/3.4/include;
-				LIBRARY_SEARCH_PATHS = /opt/homebrew/Cellar/glfw/3.4/lib;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -261,24 +257,34 @@
 			};
 			name = Release;
 		};
-		62A700FC2BD350DC00CC9A39 /* Debug */ = {
+		620C001E2BD5813200F17431 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C52N98YX69;
 				ENABLE_HARDENED_RUNTIME = YES;
-				LD_RUNPATH_SEARCH_PATHS = /opt/homebrew/Cellar/glfw/3.4/lib;
+				HEADER_SEARCH_PATHS = /opt/homebrew/Cellar/glfw/3.4/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/homebrew/Cellar/glfw/3.4/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		62A700FD2BD350DC00CC9A39 /* Release */ = {
+		620C001F2BD5813200F17431 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C52N98YX69;
 				ENABLE_HARDENED_RUNTIME = YES;
-				LD_RUNPATH_SEARCH_PATHS = /opt/homebrew/Cellar/glfw/3.4/lib;
+				HEADER_SEARCH_PATHS = /opt/homebrew/Cellar/glfw/3.4/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/homebrew/Cellar/glfw/3.4/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -286,25 +292,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		62A700EF2BD350DC00CC9A39 /* Build configuration list for PBXProject "Engine" */ = {
+		620C00112BD5813200F17431 /* Build configuration list for PBXProject "Engine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				62A700F92BD350DC00CC9A39 /* Debug */,
-				62A700FA2BD350DC00CC9A39 /* Release */,
+				620C001B2BD5813200F17431 /* Debug */,
+				620C001C2BD5813200F17431 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		62A700FB2BD350DC00CC9A39 /* Build configuration list for PBXNativeTarget "Engine" */ = {
+		620C001D2BD5813200F17431 /* Build configuration list for PBXNativeTarget "Engine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				62A700FC2BD350DC00CC9A39 /* Debug */,
-				62A700FD2BD350DC00CC9A39 /* Release */,
+				620C001E2BD5813200F17431 /* Debug */,
+				620C001F2BD5813200F17431 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 62A700EC2BD350DC00CC9A39 /* Project object */;
+	rootObject = 620C000E2BD5813200F17431 /* Project object */;
 }
