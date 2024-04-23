@@ -1,16 +1,21 @@
 //g++ -std=c++17 \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/Main.cpp \
-    /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/src/glad.c \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/EBO.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/VAO.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/VBO.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/shaderClass.cpp \
-    /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/Button.cpp \
+    /Users/dillonmaltese/documents/github/opengl/shapemaker/include/imgui/imgui.cpp \
+    /Users/dillonmaltese/documents/github/opengl/shapemaker/include/imgui/backends/imgui_impl_opengl3.cpp \
+    /Users/dillonmaltese/documents/github/opengl/shapemaker/include/imgui/backends/imgui_impl_glfw.cpp \
     -o main \
     -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include \
     -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/glm \
+    -I/Users/dillonmaltese/documents/github/opengl/shapemaker/include/imgui \
+    -I/Users/dillonmaltese/documents/github/opengl/shapemaker/include/imgui/backends \
     -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
     -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
+
 
 #include <iostream>
 #include <limits>
@@ -25,7 +30,9 @@
 #include "VAO.h"
 #include "VBO.h"
 #include "EBO.h"
-#include "Button.h"
+#include <imgui/imgui.h>
+#include <imgui/backends/imgui_impl_glfw.h>
+#include <imgui/backends/imgui_impl_opengl3.h>
 
 bool cubeVisible = true;
 bool keyPressed = false;
@@ -99,30 +106,7 @@ GLuint indices[] = {
     5, 7, 6
 };
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
-    glViewport(0, 0, width, height);
-}
-
-void mouse_button_callback(GLFWwindow* window, Button button, int action, int mods) {
-    double xpos, ypos;
-    glfwGetCursorPos(window, &xpos, &ypos);
-
-    // Convert mouse coordinates to OpenGL coordinates
-    int width, height;
-    glfwGetWindowSize(window, &width, &height);
-    xpos = (xpos / width) * 2 - 1;
-    ypos = ((height - ypos) / height) * 2 - 1;
-
-    // Check if the button is clicked
-    if (action == GLFW_PRESS && button.isClicked(xpos, ypos)) {
-        std::cout << "Button clicked!" << std::endl;
-    }
-}
-
-
 int main() {
-    Button button(0.0f, 0.0f, 200.0f, 50.0f, "Click Me");
-
     // Initialize GLFW
     if (!glfwInit()) {
         std::cerr << "Failed to initialize GLFW" << std::endl;
@@ -197,44 +181,39 @@ int main() {
         glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        //if (!button.visible) {
-            std::cout << "Cube visible" << std::endl;
-            // Render cube
-            // Activate shader program
-            shaderProgram.Activate();
+        // Activate shader program
+        shaderProgram.Activate();
 
-            // Update rotation
-            double currentTime = glfwGetTime();
-            if (currentTime - prevTime >= 1 / 60) {
-                rotationX += 0.5f;
-                rotationY += 0.5f;
-                prevTime = currentTime;
-            }
+        // Update rotation
+        double currentTime = glfwGetTime();
+        if (currentTime - prevTime >= 1 / 60) {
+            rotationX += 0.5f;
+            rotationY += 0.5f;
+            prevTime = currentTime;
+        }
 
-            // Initialize matrices
-            glm::mat4 model = glm::mat4(1.0f);
-            glm::mat4 view = glm::mat4(1.0f);
-            glm::mat4 proj = glm::mat4(1.0f);
+        // Initialize matrices
+        glm::mat4 model = glm::mat4(1.0f);
+        glm::mat4 view = glm::mat4(1.0f);
+        glm::mat4 proj = glm::mat4(1.0f);
 
-            // Assign transformations
-            model = glm::rotate(model, glm::radians(rotationY), glm::vec3(1.0f, 0.0f, 0.0f));
-            model = glm::rotate(model, glm::radians(rotationX), glm::vec3(0.0f, 1.0f, 0.0f));
-            view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
-            proj = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f);
+        // Assign transformations
+        model = glm::rotate(model, glm::radians(rotationY), glm::vec3(1.0f, 0.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(rotationX), glm::vec3(0.0f, 1.0f, 0.0f));
+        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
+        proj = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f);
 
-            // Pass matrices to vertex shader
-            int modelLoc = glGetUniformLocation(shaderProgram.ID, "model");
-            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-            int viewLoc = glGetUniformLocation(shaderProgram.ID, "view");
-            glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-            int projLoc = glGetUniformLocation(shaderProgram.ID, "proj");
-            glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
+        // Pass matrices to vertex shader
+        int modelLoc = glGetUniformLocation(shaderProgram.ID, "model");
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        int viewLoc = glGetUniformLocation(shaderProgram.ID, "view");
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+        int projLoc = glGetUniformLocation(shaderProgram.ID, "proj");
+        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
 
-            // Bind VAO
-            VAO.Bind();
-            glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
-            button.render();
-        //}
+        // Bind VAO
+        VAO.Bind();
+        glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
 
         // Swap buffers
         glfwSwapBuffers(window);

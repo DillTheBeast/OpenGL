@@ -444,3 +444,35 @@ Parsed CXX implicit link information from above output:
   implicit fwks: [/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/System/Library/Frameworks]
 
 
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD succeeded with the following output:
+Change Dir: /Users/dillonmaltese/Documents/GitHub/OpenGL/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_9893a/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_9893a.dir/build.make CMakeFiles/cmTC_9893a.dir/build
+Building C object CMakeFiles/cmTC_9893a.dir/src.c.o
+/opt/homebrew/bin/aarch64-apple-darwin23-gcc-13 -DCMAKE_HAVE_LIBC_PTHREAD  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -o CMakeFiles/cmTC_9893a.dir/src.c.o -c /Users/dillonmaltese/Documents/GitHub/OpenGL/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_9893a
+/opt/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9893a.dir/link.txt --verbose=1
+/opt/homebrew/bin/aarch64-apple-darwin23-gcc-13  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_9893a.dir/src.c.o -o cmTC_9893a 
+
+
+Source file was:
+#include <pthread.h>
+
+static void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_cancel(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+

@@ -1,43 +1,42 @@
 cmake_minimum_required(VERSION 3.10)
-project(OpenGLDemo)
+project(ShapeMaker)
 
-set(CMAKE_CXX_STANDARD 17)
+# Set the C++ standard
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Add your source files
-set(SOURCE_FILES
+# Find GLFW package
+find_package(glfw3 REQUIRED)
+
+# Add the executable target
+add_executable(main
     Main.cpp
-    ../src/glad.c  # Adjust the path to glad.c relative to your CMakeLists.txt file
+    ../src/glad.c
     EBO.cpp
     VAO.cpp
     VBO.cpp
     shaderClass.cpp
-    ../include/imgui/imgui.cpp
+    include/imgui/imgui.cpp
+    include/imgui/imgui_demo.cpp
+    include/imgui/imgui_draw.cpp
+    include/imgui/imgui_widgets.cpp
+    include/imgui/backends/imgui_impl_opengl3.cpp
+    include/imgui/backends/imgui_impl_glfw.cpp
 )
 
-
-# Include directories
-include_directories(
-    ../include
-    ../include/glm
-    ../include/imgui
+# Add include directories
+target_include_directories(main PRIVATE
+    include
+    include/glm
+    include/imgui
+    include/imgui/backends
 )
 
-# Add executable
-add_executable(main ${SOURCE_FILES})
-
-# Link directories
-target_link_directories(main PRIVATE /Users/dillonmaltese/Documents/GitHub/OpenGL/lib)
-
-# Link libraries
-target_link_libraries(main glfw3)
-#target_link_libraries(main imgui)
-
-# Additional frameworks for macOS
-if(APPLE)
-    target_link_libraries(main
-        "-framework OpenGL"
-        "-framework Cocoa"
-        "-framework IOKit"
-        "-framework CoreVideo"
-    )
-endif()
+# Link GLFW library
+target_link_libraries(main PRIVATE
+    glfw
+    "-framework OpenGL"
+    "-framework Cocoa"
+    "-framework IOKit"
+    "-framework CoreVideo"
+)

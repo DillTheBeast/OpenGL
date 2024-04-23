@@ -83,19 +83,19 @@ CMakeFiles/main.dir/Main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/Main.cpp.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/Main.cpp -o CMakeFiles/main.dir/Main.cpp.s
 
-CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.o: /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c
-CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.o"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.o -MF CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.o.d -o CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.o -c /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c
+CMakeFiles/main.dir/src/glad.c.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/glad.c.o: /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/src/glad.c
+CMakeFiles/main.dir/src/glad.c.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/main.dir/src/glad.c.o"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/main.dir/src/glad.c.o -MF CMakeFiles/main.dir/src/glad.c.o.d -o CMakeFiles/main.dir/src/glad.c.o -c /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/src/glad.c
 
-CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.i"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c > CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.i
+CMakeFiles/main.dir/src/glad.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/main.dir/src/glad.c.i"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/src/glad.c > CMakeFiles/main.dir/src/glad.c.i
 
-CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.s"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c -o CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.s
+CMakeFiles/main.dir/src/glad.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/main.dir/src/glad.c.s"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/src/glad.c -o CMakeFiles/main.dir/src/glad.c.s
 
 CMakeFiles/main.dir/EBO.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/EBO.cpp.o: /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/EBO.cpp
@@ -167,29 +167,110 @@ CMakeFiles/main.dir/include/imgui/imgui.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/include/imgui/imgui.cpp.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/imgui.cpp -o CMakeFiles/main.dir/include/imgui/imgui.cpp.s
 
+CMakeFiles/main.dir/include/imgui/imgui_demo.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/include/imgui/imgui_demo.cpp.o: /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/imgui_demo.cpp
+CMakeFiles/main.dir/include/imgui/imgui_demo.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/main.dir/include/imgui/imgui_demo.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/include/imgui/imgui_demo.cpp.o -MF CMakeFiles/main.dir/include/imgui/imgui_demo.cpp.o.d -o CMakeFiles/main.dir/include/imgui/imgui_demo.cpp.o -c /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/imgui_demo.cpp
+
+CMakeFiles/main.dir/include/imgui/imgui_demo.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/include/imgui/imgui_demo.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/imgui_demo.cpp > CMakeFiles/main.dir/include/imgui/imgui_demo.cpp.i
+
+CMakeFiles/main.dir/include/imgui/imgui_demo.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/include/imgui/imgui_demo.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/imgui_demo.cpp -o CMakeFiles/main.dir/include/imgui/imgui_demo.cpp.s
+
+CMakeFiles/main.dir/include/imgui/imgui_draw.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/include/imgui/imgui_draw.cpp.o: /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/imgui_draw.cpp
+CMakeFiles/main.dir/include/imgui/imgui_draw.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/main.dir/include/imgui/imgui_draw.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/include/imgui/imgui_draw.cpp.o -MF CMakeFiles/main.dir/include/imgui/imgui_draw.cpp.o.d -o CMakeFiles/main.dir/include/imgui/imgui_draw.cpp.o -c /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/imgui_draw.cpp
+
+CMakeFiles/main.dir/include/imgui/imgui_draw.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/include/imgui/imgui_draw.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/imgui_draw.cpp > CMakeFiles/main.dir/include/imgui/imgui_draw.cpp.i
+
+CMakeFiles/main.dir/include/imgui/imgui_draw.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/include/imgui/imgui_draw.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/imgui_draw.cpp -o CMakeFiles/main.dir/include/imgui/imgui_draw.cpp.s
+
+CMakeFiles/main.dir/include/imgui/imgui_widgets.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/include/imgui/imgui_widgets.cpp.o: /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/imgui_widgets.cpp
+CMakeFiles/main.dir/include/imgui/imgui_widgets.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/main.dir/include/imgui/imgui_widgets.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/include/imgui/imgui_widgets.cpp.o -MF CMakeFiles/main.dir/include/imgui/imgui_widgets.cpp.o.d -o CMakeFiles/main.dir/include/imgui/imgui_widgets.cpp.o -c /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/imgui_widgets.cpp
+
+CMakeFiles/main.dir/include/imgui/imgui_widgets.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/include/imgui/imgui_widgets.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/imgui_widgets.cpp > CMakeFiles/main.dir/include/imgui/imgui_widgets.cpp.i
+
+CMakeFiles/main.dir/include/imgui/imgui_widgets.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/include/imgui/imgui_widgets.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/imgui_widgets.cpp -o CMakeFiles/main.dir/include/imgui/imgui_widgets.cpp.s
+
+CMakeFiles/main.dir/include/imgui/backends/imgui_impl_opengl3.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/include/imgui/backends/imgui_impl_opengl3.cpp.o: /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/backends/imgui_impl_opengl3.cpp
+CMakeFiles/main.dir/include/imgui/backends/imgui_impl_opengl3.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/main.dir/include/imgui/backends/imgui_impl_opengl3.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/include/imgui/backends/imgui_impl_opengl3.cpp.o -MF CMakeFiles/main.dir/include/imgui/backends/imgui_impl_opengl3.cpp.o.d -o CMakeFiles/main.dir/include/imgui/backends/imgui_impl_opengl3.cpp.o -c /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/backends/imgui_impl_opengl3.cpp
+
+CMakeFiles/main.dir/include/imgui/backends/imgui_impl_opengl3.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/include/imgui/backends/imgui_impl_opengl3.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/backends/imgui_impl_opengl3.cpp > CMakeFiles/main.dir/include/imgui/backends/imgui_impl_opengl3.cpp.i
+
+CMakeFiles/main.dir/include/imgui/backends/imgui_impl_opengl3.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/include/imgui/backends/imgui_impl_opengl3.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/backends/imgui_impl_opengl3.cpp -o CMakeFiles/main.dir/include/imgui/backends/imgui_impl_opengl3.cpp.s
+
+CMakeFiles/main.dir/include/imgui/backends/imgui_impl_glfw.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/include/imgui/backends/imgui_impl_glfw.cpp.o: /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/backends/imgui_impl_glfw.cpp
+CMakeFiles/main.dir/include/imgui/backends/imgui_impl_glfw.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/main.dir/include/imgui/backends/imgui_impl_glfw.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/include/imgui/backends/imgui_impl_glfw.cpp.o -MF CMakeFiles/main.dir/include/imgui/backends/imgui_impl_glfw.cpp.o.d -o CMakeFiles/main.dir/include/imgui/backends/imgui_impl_glfw.cpp.o -c /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/backends/imgui_impl_glfw.cpp
+
+CMakeFiles/main.dir/include/imgui/backends/imgui_impl_glfw.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/include/imgui/backends/imgui_impl_glfw.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/backends/imgui_impl_glfw.cpp > CMakeFiles/main.dir/include/imgui/backends/imgui_impl_glfw.cpp.i
+
+CMakeFiles/main.dir/include/imgui/backends/imgui_impl_glfw.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/include/imgui/backends/imgui_impl_glfw.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/backends/imgui_impl_glfw.cpp -o CMakeFiles/main.dir/include/imgui/backends/imgui_impl_glfw.cpp.s
+
 # Object files for target main
 main_OBJECTS = \
 "CMakeFiles/main.dir/Main.cpp.o" \
-"CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.o" \
+"CMakeFiles/main.dir/src/glad.c.o" \
 "CMakeFiles/main.dir/EBO.cpp.o" \
 "CMakeFiles/main.dir/VAO.cpp.o" \
 "CMakeFiles/main.dir/VBO.cpp.o" \
 "CMakeFiles/main.dir/shaderClass.cpp.o" \
-"CMakeFiles/main.dir/include/imgui/imgui.cpp.o"
+"CMakeFiles/main.dir/include/imgui/imgui.cpp.o" \
+"CMakeFiles/main.dir/include/imgui/imgui_demo.cpp.o" \
+"CMakeFiles/main.dir/include/imgui/imgui_draw.cpp.o" \
+"CMakeFiles/main.dir/include/imgui/imgui_widgets.cpp.o" \
+"CMakeFiles/main.dir/include/imgui/backends/imgui_impl_opengl3.cpp.o" \
+"CMakeFiles/main.dir/include/imgui/backends/imgui_impl_glfw.cpp.o"
 
 # External object files for target main
 main_EXTERNAL_OBJECTS =
 
 main: CMakeFiles/main.dir/Main.cpp.o
-main: CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.o
+main: CMakeFiles/main.dir/src/glad.c.o
 main: CMakeFiles/main.dir/EBO.cpp.o
 main: CMakeFiles/main.dir/VAO.cpp.o
 main: CMakeFiles/main.dir/VBO.cpp.o
 main: CMakeFiles/main.dir/shaderClass.cpp.o
 main: CMakeFiles/main.dir/include/imgui/imgui.cpp.o
+main: CMakeFiles/main.dir/include/imgui/imgui_demo.cpp.o
+main: CMakeFiles/main.dir/include/imgui/imgui_draw.cpp.o
+main: CMakeFiles/main.dir/include/imgui/imgui_widgets.cpp.o
+main: CMakeFiles/main.dir/include/imgui/backends/imgui_impl_opengl3.cpp.o
+main: CMakeFiles/main.dir/include/imgui/backends/imgui_impl_glfw.cpp.o
 main: CMakeFiles/main.dir/build.make
+main: /opt/homebrew/lib/libglfw.3.4.dylib
 main: CMakeFiles/main.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable main"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/main.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

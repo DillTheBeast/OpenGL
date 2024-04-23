@@ -146,7 +146,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=OpenGLDemo
+CMAKE_PROJECT_NAME:STATIC=ShapeMaker
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/Library/Developer/CommandLineTools/usr/bin/ranlib
@@ -211,13 +211,16 @@ CMAKE_STRIP:FILEPATH=/Library/Developer/CommandLineTools/usr/bin/strip
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
 //Value Computed by CMake
-OpenGLDemo_BINARY_DIR:STATIC=/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/build
+ShapeMaker_BINARY_DIR:STATIC=/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/build
 
 //Value Computed by CMake
-OpenGLDemo_IS_TOP_LEVEL:STATIC=ON
+ShapeMaker_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
-OpenGLDemo_SOURCE_DIR:STATIC=/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker
+ShapeMaker_SOURCE_DIR:STATIC=/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker
+
+//The directory containing a CMake configuration file for glfw3.
+glfw3_DIR:PATH=/opt/homebrew/lib/cmake/glfw3
 
 
 ########################
@@ -296,6 +299,8 @@ CMAKE_GENERATOR_INSTANCE:INTERNAL=
 CMAKE_GENERATOR_PLATFORM:INTERNAL=
 //Name of generator toolset.
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
+//Test CMAKE_HAVE_LIBC_PTHREAD
+CMAKE_HAVE_LIBC_PTHREAD:INTERNAL=1
 //Source directory with the top level CMakeLists.txt file for this
 // project
 CMAKE_HOME_DIRECTORY:INTERNAL=/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker
@@ -361,4 +366,6 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Details about finding Threads
+FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 

@@ -5,7 +5,7 @@
 # compile CXX with /Library/Developer/CommandLineTools/usr/bin/c++
 C_DEFINES = 
 
-C_INCLUDES = -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/../include -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/../include/glm -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/../include/imgui
+C_INCLUDES = -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/glm -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/backends -isystem /opt/homebrew/include
 
 C_FLAGSarm64 =  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk
 
@@ -13,9 +13,9 @@ C_FLAGS =  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/../include -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/../include/glm -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/../include/imgui
+CXX_INCLUDES = -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/glm -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/imgui/backends -isystem /opt/homebrew/include
 
-CXX_FLAGSarm64 =  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -std=gnu++17
+CXX_FLAGSarm64 =  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -std=gnu++14
 
-CXX_FLAGS =  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -std=gnu++17
+CXX_FLAGS =  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -std=gnu++14
 

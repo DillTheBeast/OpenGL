@@ -1,5 +1,5 @@
-CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.o: \
-  /Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c \
+CMakeFiles/main.dir/src/glad.c.o: \
+  /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/src/glad.c \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/stdio.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/_stdio.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/sys/cdefs.h \
@@ -84,7 +84,7 @@ CMakeFiles/main.dir/Users/dillonmaltese/Documents/GitHub/OpenGL/src/glad.c.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/strings.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/secure/_strings.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/secure/_string.h \
-  /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/../include/glad/glad.h \
-  /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/../include/KHR/khrplatform.h \
+  /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/glad/glad.h \
+  /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/KHR/khrplatform.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/dlfcn.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stdbool.h

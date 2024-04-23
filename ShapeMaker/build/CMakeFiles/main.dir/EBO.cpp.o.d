@@ -1,8 +1,8 @@
 CMakeFiles/main.dir/EBO.cpp.o: \
   /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/EBO.cpp \
   /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/EBO.h \
-  /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/../include/glad/glad.h \
-  /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/../include/KHR/khrplatform.h \
+  /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/glad/glad.h \
+  /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/KHR/khrplatform.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/stdint.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__config \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__config_site \
