@@ -5,14 +5,18 @@
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/VAO.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/VBO.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/shaderClass.cpp \
-    /Users/dillonmaltese/documents/github/opengl/shapemaker/include/imgui/imgui.cpp \
-    /Users/dillonmaltese/documents/github/opengl/shapemaker/include/imgui/backends/imgui_impl_opengl3.cpp \
-    /Users/dillonmaltese/documents/github/opengl/shapemaker/include/imgui/backends/imgui_impl_glfw.cpp \
+    /Users/dillonmaltese/documents/github/opengl/Shapemaker/include/imgui/imgui.cpp \
+    /Users/dillonmaltese/documents/github/opengl/Shapemaker/include/imgui/imgui_demo.cpp \
+    /Users/dillonmaltese/documents/github/opengl/Shapemaker/include/imgui/imgui_draw.cpp \
+    /Users/dillonmaltese/documents/github/opengl/Shapemaker/include/imgui/imgui_widgets.cpp \
+    /Users/dillonmaltese/documents/github/opengl/Shapemaker/include/imgui/imgui_tables.cpp \
+    /Users/dillonmaltese/documents/github/opengl/Shapemaker/include/imgui/backends/imgui_impl_opengl3.cpp \
+    /Users/dillonmaltese/documents/github/opengl/Shapemaker/include/imgui/backends/imgui_impl_glfw.cpp \
     -o main \
     -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include \
     -I/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/include/glm \
-    -I/Users/dillonmaltese/documents/github/opengl/shapemaker/include/imgui \
-    -I/Users/dillonmaltese/documents/github/opengl/shapemaker/include/imgui/backends \
+    -I/Users/dillonmaltese/documents/github/opengl/Shapemaker/include/imgui \
+    -I/Users/dillonmaltese/documents/github/opengl/Shapemaker/include/imgui/backends \
     -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
     -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
 
@@ -36,6 +40,10 @@
 
 bool cubeVisible = true;
 bool keyPressed = false;
+bool xNeg = false;
+bool yNeg = false;
+bool xStop = false;
+bool yStop = false;
 
 // Vertices coordinates (Goes from -1 to 1)
 GLfloat vertices[] = {
@@ -121,7 +129,7 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
     // Making GLFW window
-    GLFWwindow* window = glfwCreateWindow(800, 800, "RGB Square", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(1000, 800, "RGB Square", NULL, NULL);
     // Making sure window can be created
     if (!window) {
         std::cerr << "Failed to create GLFW window" << std::endl;
@@ -174,22 +182,176 @@ int main() {
     // Enables z-buffer so OpenGL knows which triangle texture goes on top of another
     glEnable(GL_DEPTH_TEST);
 
+    // Setup Dear ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 330");
+
     //Main loop
     while (!glfwWindowShouldClose(window)) {
+        // Poll events
         glfwPollEvents();
+
+        // Start the Dear ImGui frame
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        // Set up the main ImGui window
+        ImGui::SetNextWindowSize(ImVec2(1000, 800)); // Set the window size to accommodate all buttons
+        ImGui::SetNextWindowPos(ImVec2(10, 10)); // Set the window position
+        ImGui::Begin("Controls", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground);
+
+        // Set text size
+        ImGui::SetWindowFontScale(1.2); // Set text scale
+
+        if (ImGui::Button("Close Application", ImVec2(150, 50))) {
+            glfwSetWindowShouldClose(window, true);
+        }
+
+        // Move to the right side of the window
+        ImGui::SameLine(825);
+
+        if (ImGui::Button(cubeVisible ? "Stop Spinning" : "Start Spinning", ImVec2(150, 50))) {
+            cubeVisible = !cubeVisible;
+        }
+
+        // Move to the next line
+        ImGui::NewLine();
+
+        if (ImGui::Button("Vertice 1 Color", ImVec2(150, 50))) {
+            cubeVisible = false;
+        }
+
+        ImGui::SameLine(825);
+
+        if (ImGui::Button(xStop ? "Stop X" : "Start X", ImVec2(150, 50))) {
+            // Button action
+            xStop = !xStop;
+        }
+
+        // Move to the next line
+        ImGui::NewLine();
+
+        if (ImGui::Button("Vertice 2 Color", ImVec2(150, 50))) {
+            cubeVisible = false;
+        }
+
+        ImGui::SameLine(825);
+
+        if (ImGui::Button(yStop ? "Stop Y" : "Start Y", ImVec2(150, 50))) {
+            // Button action
+            yStop = !yStop;
+        }
+
+        // Move to the next line
+        ImGui::NewLine();
+
+        if (ImGui::Button("Vertice 3 Color", ImVec2(150, 50))) {
+            cubeVisible = false;
+        }
+
+        ImGui::SameLine(825);
+
+        if (ImGui::Button("Reverse Both", ImVec2(150, 50))) {
+            // Button action
+            xNeg = !xNeg;
+            yNeg = !yNeg;
+        }
+
+        // Move to the next line
+        ImGui::NewLine();
+
+        if (ImGui::Button("Vertice 4 Color", ImVec2(150, 50))) {
+            cubeVisible = false;
+        }
+
+        ImGui::SameLine(825);
+
+        if (ImGui::Button("Reverse X", ImVec2(150, 50))) {
+            // Button action
+            xNeg = !xNeg;
+        }
+
+        // Move to the next line
+        ImGui::NewLine();
+
+        if (ImGui::Button("Vertice 5 Color", ImVec2(150, 50))) {
+            cubeVisible = false;
+        }
+
+        ImGui::SameLine(825);
+
+        if (ImGui::Button("Reverse Y", ImVec2(150, 50))) {
+            // Button action
+            yNeg = !yNeg;
+        }
+        
+        // Move to the next line
+        ImGui::NewLine();
+
+        if (ImGui::Button("Vertice 6 Color", ImVec2(150, 50))) {
+            cubeVisible = false;
+        }
+
+        // Move to the next line
+        ImGui::NewLine();
+
+        if (ImGui::Button("Vertice 7 Color", ImVec2(150, 50))) {
+            cubeVisible = false;
+        }
+
+        // Move to the next line
+        ImGui::NewLine();
+
+        if (ImGui::Button("Vertice 8 Color", ImVec2(150, 50))) {
+            cubeVisible = false;
+        }
+
+        ImGui::NewLine();
+
+        // RGB scale selector
+        static ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // Initial color
+        ImGui::ColorEdit3("RGB", (float*)&color); // Color picker for RGB
+
+        // Display the selected color
+        ImGui::Text("Selected Color:");
+        ImGui::SameLine();
+        ImGui::ColorButton("##ColorButton", color, ImGuiColorEditFlags_NoPicker | ImGuiColorEditFlags_NoTooltip, ImVec2(50, 25));
+
+
+        ImGui::End(); // End the main ImGui window
+
         // Call the keyPress function with the obtained parameters
-        glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Activate shader program
         shaderProgram.Activate();
 
-        // Update rotation
-        double currentTime = glfwGetTime();
-        if (currentTime - prevTime >= 1 / 60) {
-            rotationX += 0.5f;
-            rotationY += 0.5f;
-            prevTime = currentTime;
+        // Update rotation if cube is spinning
+        if (cubeVisible) {
+            double currentTime = glfwGetTime();
+            if (currentTime - prevTime >= 1 / 60) {
+                if (!xStop) {
+                    if (xNeg) {
+                        rotationX -= 0.5f;
+                    }
+                    else {
+                        rotationX += 0.5f;
+                    }
+                }
+                if (!yStop) {
+                    if (yNeg) {
+                        rotationY -= 0.5f;
+                    }
+                    else {
+                        rotationY += 0.5f;
+                    }
+                }
+                prevTime = currentTime;
+            }
         }
 
         // Initialize matrices
@@ -215,11 +377,18 @@ int main() {
         VAO.Bind();
         glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
 
+        // Render Dear ImGui into screen
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         // Swap buffers
         glfwSwapBuffers(window);
     }
 
     // Delete all the objects we've created
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
     VAO.Delete();
     VBO.Delete();
     EBO.Delete();
