@@ -38,12 +38,15 @@
 #include <imgui/backends/imgui_impl_glfw.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
 
+bool cubeMove = true;
 bool cubeVisible = true;
 bool keyPressed = false;
+bool display = false;
 bool xNeg = false;
 bool yNeg = false;
 bool xStop = false;
 bool yStop = false;
+int v = 0;
 
 // Vertices coordinates (Goes from -1 to 1)
 GLfloat vertices[] = {
@@ -213,8 +216,8 @@ int main() {
         // Move to the right side of the window
         ImGui::SameLine(825);
 
-        if (ImGui::Button(cubeVisible ? "Stop Spinning" : "Start Spinning", ImVec2(150, 50))) {
-            cubeVisible = !cubeVisible;
+        if (ImGui::Button(cubeMove ? "Stop Spinning" : "Start Spinning", ImVec2(150, 50))) {
+            cubeMove = !cubeMove;
         }
 
         // Move to the next line
@@ -222,6 +225,8 @@ int main() {
 
         if (ImGui::Button("Vertice 1 Color", ImVec2(150, 50))) {
             cubeVisible = false;
+            display = true;
+            v = 1;
         }
 
         ImGui::SameLine(825);
@@ -236,6 +241,8 @@ int main() {
 
         if (ImGui::Button("Vertice 2 Color", ImVec2(150, 50))) {
             cubeVisible = false;
+            display = true;
+            v = 2;
         }
 
         ImGui::SameLine(825);
@@ -250,6 +257,8 @@ int main() {
 
         if (ImGui::Button("Vertice 3 Color", ImVec2(150, 50))) {
             cubeVisible = false;
+            display = true;
+            v = 3;
         }
 
         ImGui::SameLine(825);
@@ -265,6 +274,8 @@ int main() {
 
         if (ImGui::Button("Vertice 4 Color", ImVec2(150, 50))) {
             cubeVisible = false;
+            display = true;
+            v = 4;
         }
 
         ImGui::SameLine(825);
@@ -279,6 +290,8 @@ int main() {
 
         if (ImGui::Button("Vertice 5 Color", ImVec2(150, 50))) {
             cubeVisible = false;
+            display = true;
+            v = 5;
         }
 
         ImGui::SameLine(825);
@@ -293,6 +306,14 @@ int main() {
 
         if (ImGui::Button("Vertice 6 Color", ImVec2(150, 50))) {
             cubeVisible = false;
+            display = true;
+            v = 6;
+        }
+
+        ImGui::SameLine(825);
+
+        if (ImGui::Button(cubeVisible ? "Cube Visible" : "Cube Invisible", ImVec2(150, 50))) {
+            cubeVisible = !cubeVisible;
         }
 
         // Move to the next line
@@ -300,6 +321,8 @@ int main() {
 
         if (ImGui::Button("Vertice 7 Color", ImVec2(150, 50))) {
             cubeVisible = false;
+            display = true;
+            v = 7;
         }
 
         // Move to the next line
@@ -307,19 +330,61 @@ int main() {
 
         if (ImGui::Button("Vertice 8 Color", ImVec2(150, 50))) {
             cubeVisible = false;
+            display = true;
+            v = 8;
         }
 
+        // Move to the next line
         ImGui::NewLine();
 
-        // RGB scale selector
-        static ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // Initial color
-        ImGui::ColorEdit3("RGB", (float*)&color); // Color picker for RGB
+        if (ImGui::Button("All Vertice Color", ImVec2(150, 50))) {
+            cubeVisible = false;
+            display = true;
+            v = -1;
+        }
 
-        // Display the selected color
-        ImGui::Text("Selected Color:");
-        ImGui::SameLine();
-        ImGui::ColorButton("##ColorButton", color, ImGuiColorEditFlags_NoPicker | ImGuiColorEditFlags_NoTooltip, ImVec2(50, 25));
+        if (display) {
+            ImGui::NewLine();
 
+            // RGB scale selector
+            static ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // Initial color
+            ImGui::ColorEdit3("RGB", (float*)&color); // Color picker for RGB
+
+            // Display the selected color
+            ImGui::Text("Selected Color:");
+            ImGui::SameLine();
+            ImGui::ColorButton("##ColorButton", color, ImGuiColorEditFlags_NoPicker | ImGuiColorEditFlags_NoTooltip, ImVec2(50, 25));
+            ImGui::SameLine();
+            if (ImGui::Button("Enter", ImVec2(50, 25))) {
+                float red = color.x;
+                float green = color.y;
+                float blue = color.z;
+
+                if (v == -1) {
+                    for(int i = 0; i < 8; i++) {
+                        vertices[(8 * (i) + 3)] = red;
+                        vertices[(8 * (i) + 4)] = green;
+                        vertices[(8 * (i) + 5)] = blue;
+                    }
+                }
+
+                else {
+                    vertices[(8 * (v-1) + 3)] = red;
+                    vertices[(8 * (v-1) + 4)] = green;
+                    vertices[(8 * (v-1) + 5)] = blue;
+                }
+                
+                cubeVisible = true;
+                display = false;
+            }
+        }
+
+        // Bind VBO
+        VBO.Bind();
+        // Update the data in VBO
+        VBO.BufferData(vertices, sizeof(vertices));
+        // Unbind VBO
+        VBO.Unbind();
 
         ImGui::End(); // End the main ImGui window
 
@@ -331,7 +396,7 @@ int main() {
         shaderProgram.Activate();
 
         // Update rotation if cube is spinning
-        if (cubeVisible) {
+        if (cubeMove) {
             double currentTime = glfwGetTime();
             if (currentTime - prevTime >= 1 / 60) {
                 if (!xStop) {
@@ -375,7 +440,9 @@ int main() {
 
         // Bind VAO
         VAO.Bind();
-        glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
+        if(cubeVisible) {
+            glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
+        }
 
         // Render Dear ImGui into screen
         ImGui::Render();
