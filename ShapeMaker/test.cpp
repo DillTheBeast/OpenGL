@@ -1,5 +1,5 @@
 //g++ -std=c++17 \
-    /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/Main.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/test.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/src/glad.c \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/EBO.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/VAO.cpp \
@@ -51,44 +51,25 @@ int v = 0;
 // Vertices coordinates (Goes from -1 to 1)
 GLfloat cubeVertices[] = {
     // 0
-    -0.5f, -0.5f, 0.5f,  // Lower left front
-    1.0f, 0.0f, 0.0f,     // Red color
+    -0.5f, 0.0f, 0.5f, // Lower left
+    0.83f, 0.70f, 0.44f,   // Color
+    0.0f, 0.0f,         // Image coords
+
+    -0.5f, 0.0f, -0.5f,  // Upper left
+    0.83f, 0.70f, 0.44f,   // Color
+    0.0f, 0.0f,         // Image coords
+
+    0.5f, 0.0f, -0.5f,   // Upper right
+    0.83f, 0.70f, 0.44f,   // Color
+    0.0f, 0.0f,         // Image coords
+
+    0.5f, 0.0f, 0.5f,  // Lower right
+    0.83f, 0.70f, 0.44f,   // Color
     0.0f, 0.0f,          // Image coords
 
-    // 1
-    -0.5f, 0.5f, 0.5f,   // Upper left front
-    0.0f, 1.0f, 0.0f,     // Green color
-    0.0f, 0.0f,          // Image coords
-
-    // 2
-    0.5f, 0.5f, 0.5f,    // Upper right front
-    0.0f, 0.0f, 1.0f,     // Blue color
-    0.0f, 0.0f,          // Image coords
-
-    // 3
-    0.5f, -0.5f, 0.5f,   // Lower right front
-    1.0f, 1.0f, 0.0f,     // Yellow color
-    0.0f, 0.0f,          // Image coords
-
-    // 4
-    -0.5f, -0.5f, -0.5f,  // Lower left back
-    0.0f, 1.0f, 1.0f,     // Cyan color
-    0.0f, 0.0f,           // Image coords
-
-    // 5
-    -0.5f, 0.5f, -0.5f,   // Upper left back
-    1.0f, 0.0f, 1.0f,     // Magenta color
-    0.0f, 0.0f,           // Image coords
-
-    // 6
-    0.5f, 0.5f, -0.5f,    // Upper right back
-    0.5f, 0.5f, 0.5f,     // Gray color
-    0.0f, 0.0f,           // Image coords
-
-    // 7
-    0.5f, -0.5f, -0.5f,   // Lower right back
-    1.0f, 0.5f, 0.0f,     // Orange color
-    0.0f, 0.0f            // Image coords
+    0.0f, 0.8f, 0.0f,    // Middle
+    0.92f, 0.86f, 0.76f, //Color 
+    0.0f, 0.0f // Image coords
 };
 
 GLuint indices[] = {
