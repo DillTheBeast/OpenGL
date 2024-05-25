@@ -400,6 +400,12 @@ int main() {
         // Activate shader program
         shaderProgram.Activate();
 
+        glm::vec3 cubePosition = glm::vec3(0.0f, 0.0f, 0.0f); // Initialize cube position to the origin
+        glm::vec3 cubeVelocity = glm::vec3(0.0f, 0.0f, 0.0f); // Initialize cube velocity to zero
+
+
+        physics.update(cubePosition, cubeVelocity);
+
         // Update rotation if cube is spinning
         if (cubeMove) {
             double currentTime = glfwGetTime();

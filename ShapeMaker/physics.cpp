@@ -3,19 +3,18 @@
 Physics::Physics(float gravity, float bounceDamping)
     : gravity(gravity), bounceDamping(bounceDamping) {}
 
-void Physics::update(float& position, float& velocity) {
+void Physics::update(glm::vec3& position, glm::vec3& velocity) {
     velocity += gravity;
     position += velocity;
 
-    // Check for collision with the bottom of the screen (assumed to be -1.0f)
-    if (position < -1.0f) {
-        position = -1.0f;
-        velocity *= -bounceDamping;
+    // Example collision detection and response with the bottom of the screen (assumed to be at y = -1.0f)
+    if (position.y < -1.0f) {
+        position.y = -1.0f;
+        velocity.y *= -bounceDamping;
 
         // Ensure position doesn't go below the bottom of the window
-        if (position < -1.0f) {
-            position = -1.0f;
+        if (position.y < -1.0f) {
+            position.y = -1.0f;
         }
     }
 }
-

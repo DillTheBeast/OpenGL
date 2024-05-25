@@ -21,15 +21,16 @@
     -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
     -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
 
+
 #include <iostream>
 #include <limits>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
-#include <glm/vec3.hpp>
+#include <glm/vec3.hpp> 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
+#include "physics.h"
 #include "shaderClass.h"
 #include "VAO.h"
 #include "VBO.h"
@@ -37,7 +38,6 @@
 #include <imgui/imgui.h>
 #include <imgui/backends/imgui_impl_glfw.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
-//#include "physics.h"  // Include the Physics class
 
 bool cubeMove = true;
 bool cubeVisible = true;
@@ -49,9 +49,7 @@ bool xStop = false;
 bool yStop = false;
 int v = 0;
 
-float cubeYPosition = 0.0f;
-float cubeYVelocity = 0.0f;
-
+// Vertices coordinates (Goes from -1 to 1)
 GLfloat cubeVertices[] = {
     // 0
     -0.5f, -0.5f, 0.5f,  // Lower left front
@@ -135,71 +133,100 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
     // Making GLFW window
-    int width = 800;
-    int height = 800;
-    GLFWwindow *window = glfwCreateWindow(width, height, "Cube", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(1000, 800, "RGB Square", NULL, NULL);
+    // Making sure window can be created
     if (!window) {
         std::cerr << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return -1;
     }
-    // Introduce window into the current context
+
+    // Putting the window into the current context
     glfwMakeContextCurrent(window);
 
-    // Load GLAD so it configures OpenGL
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+    // Loading opengl configurations
+    if (!gladLoadGL()) {
         std::cerr << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
+
+    // Tell opengl the area of the window
+    // Bottom left --> top right
+    int width, height;
+    glfwGetFramebufferSize(window, &width, &height);
     glViewport(0, 0, width, height);
 
-    // Enable the depth buffer
+    // Generates Shader object using shaders default.vert and default.frag
+    Shader shaderProgram("ShapeMaker/default.vert", "ShapeMaker/default.frag");
+
+    // Generates Vertex Array Object and binds it
+    VAO VAO;
+    VAO.Bind();
+
+    // Generates Vertex Buffer Object and links it to vertices
+    VBO VBO(cubeVertices, sizeof(cubeVertices));
+    // Generates Element Buffer Object and links it to indices
+    EBO EBO(indices, sizeof(indices));
+
+    // Links VBO to VAO
+    VAO.LinkAttrib(VBO, 0, 3, GL_FLOAT, 8 * sizeof(float), (void *)0); // Position attribute
+    VAO.LinkAttrib(VBO, 1, 3, GL_FLOAT, 8 * sizeof(float), (void *)(3 * sizeof(float))); // Color attribute
+    //VAO1.LinkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void *)(6 * sizeof(float))); // Image Coords attribute // Image Coords attribute
+
+    // Unbind all to prevent accidentally modifying them
+    VAO.Unbind();
+    VBO.Unbind();
+    EBO.Unbind();
+
+    // Creating rotation variables
+    float rotationX = 0.0f;
+    float rotationY = 0.0f;
+    double prevTime = glfwGetTime();
+
+    // Enables z-buffer so OpenGL knows which triangle texture goes on top of another
     glEnable(GL_DEPTH_TEST);
 
-    Shader shaderProgram("default.vert", "default.frag");
-
-    VAO VAO1;
-    VAO1.Bind();
-
-    VBO VBO1(cubeVertices, sizeof(cubeVertices));
-    EBO EBO1(indices, sizeof(indices));
-
-    // Link VBO attributes
-    VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void *)0);
-    VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void *)(3 * sizeof(float)));
-
-    VAO1.Unbind();
-    VBO1.Unbind();
-    EBO1.Unbind();
-
+    // Setup Dear ImGui context
+    IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
 
-    // Instantiate Physics class with appropriate parameters
-    float gravity = 9.8f; // Example gravity value
-    float bounceDamping = 0.5f; // Example bounce damping value
-    //Physics physics(gravity, bounceDamping);
+    float gravity = 9.8f;
+    float bounceDamping = 0.5f;
+    Physics physics(gravity, bounceDamping);
 
-    // Main while loop
+    //Main loop
     while (!glfwWindowShouldClose(window)) {
+        // Poll events
         glfwPollEvents();
 
-        // Start ImGui frame
+        // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        // UI elements
-        ImGui::Begin("Controls");
+        // Set up the main ImGui window
+        ImGui::SetNextWindowSize(ImVec2(1000, 800)); // Set the window size to accommodate all buttons
+        ImGui::SetNextWindowPos(ImVec2(10, 10)); // Set the window position
+        ImGui::Begin("Controls", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground);
 
-        if (ImGui::Button("Exit", ImVec2(200, 50))) {
+        // Set text size
+        ImGui::SetWindowFontScale(1.2); // Set text scale
+
+        if (ImGui::Button("Close Application", ImVec2(150, 50))) {
             glfwSetWindowShouldClose(window, true);
         }
 
-        if (ImGui::Button("Cube Move", ImVec2(200, 50))) {
+        // Move to the right side of the window
+        ImGui::SameLine(825);
+
+        if (ImGui::Button(cubeMove ? "Stop Spinning" : "Start Spinning", ImVec2(150, 50))) {
             cubeMove = !cubeMove;
         }
+
+        // Move to the next line
+        ImGui::NewLine();
 
         if (ImGui::Button("Vertice 1 Color", ImVec2(150, 50))) {
             cubeVisible = false;
@@ -210,9 +237,11 @@ int main() {
         ImGui::SameLine(825);
 
         if (ImGui::Button(xStop ? "Stop X" : "Start X", ImVec2(150, 50))) {
+            // Button action
             xStop = !xStop;
         }
 
+        // Move to the next line
         ImGui::NewLine();
 
         if (ImGui::Button("Vertice 2 Color", ImVec2(150, 50))) {
@@ -224,9 +253,11 @@ int main() {
         ImGui::SameLine(825);
 
         if (ImGui::Button(yStop ? "Stop Y" : "Start Y", ImVec2(150, 50))) {
+            // Button action
             yStop = !yStop;
         }
 
+        // Move to the next line
         ImGui::NewLine();
 
         if (ImGui::Button("Vertice 3 Color", ImVec2(150, 50))) {
@@ -237,10 +268,13 @@ int main() {
 
         ImGui::SameLine(825);
 
-        if (ImGui::Button(xNeg ? "Pos X" : "Neg X", ImVec2(150, 50))) {
+        if (ImGui::Button("Reverse Both", ImVec2(150, 50))) {
+            // Button action
             xNeg = !xNeg;
+            yNeg = !yNeg;
         }
 
+        // Move to the next line
         ImGui::NewLine();
 
         if (ImGui::Button("Vertice 4 Color", ImVec2(150, 50))) {
@@ -251,10 +285,12 @@ int main() {
 
         ImGui::SameLine(825);
 
-        if (ImGui::Button(yNeg ? "Pos Y" : "Neg Y", ImVec2(150, 50))) {
-            yNeg = !yNeg;
+        if (ImGui::Button("Reverse X", ImVec2(150, 50))) {
+            // Button action
+            xNeg = !xNeg;
         }
 
+        // Move to the next line
         ImGui::NewLine();
 
         if (ImGui::Button("Vertice 5 Color", ImVec2(150, 50))) {
@@ -265,12 +301,27 @@ int main() {
 
         ImGui::SameLine(825);
 
+        if (ImGui::Button("Reverse Y", ImVec2(150, 50))) {
+            // Button action
+            yNeg = !yNeg;
+        }
+        
+        // Move to the next line
+        ImGui::NewLine();
+
         if (ImGui::Button("Vertice 6 Color", ImVec2(150, 50))) {
             cubeVisible = false;
             display = true;
             v = 6;
         }
 
+        ImGui::SameLine(825);
+
+        if (ImGui::Button(cubeVisible ? "Cube Visible" : "Cube Invisible", ImVec2(150, 50))) {
+            cubeVisible = !cubeVisible;
+        }
+
+        // Move to the next line
         ImGui::NewLine();
 
         if (ImGui::Button("Vertice 7 Color", ImVec2(150, 50))) {
@@ -279,7 +330,8 @@ int main() {
             v = 7;
         }
 
-        ImGui::SameLine(825);
+        // Move to the next line
+        ImGui::NewLine();
 
         if (ImGui::Button("Vertice 8 Color", ImVec2(150, 50))) {
             cubeVisible = false;
@@ -287,102 +339,140 @@ int main() {
             v = 8;
         }
 
+        // Move to the next line
         ImGui::NewLine();
 
-        if (ImGui::Button("All Vertices", ImVec2(150, 50))) {
+        if (ImGui::Button("All Vertice Color", ImVec2(150, 50))) {
             cubeVisible = false;
             display = true;
-            v = 0;
+            v = -1;
         }
 
         if (display) {
-            if (v == 0) {
-                if (ImGui::ColorPicker3("Vertices 1 Color", (float *)&cubeVertices[3]) &&
-                    ImGui::ColorPicker3("Vertices 2 Color", (float *)&cubeVertices[11]) &&
-                    ImGui::ColorPicker3("Vertices 3 Color", (float *)&cubeVertices[19]) &&
-                    ImGui::ColorPicker3("Vertices 4 Color", (float *)&cubeVertices[27]) &&
-                    ImGui::ColorPicker3("Vertices 5 Color", (float *)&cubeVertices[35]) &&
-                    ImGui::ColorPicker3("Vertices 6 Color", (float *)&cubeVertices[43]) &&
-                    ImGui::ColorPicker3("Vertices 7 Color", (float *)&cubeVertices[51]) &&
-                    ImGui::ColorPicker3("Vertices 8 Color", (float *)&cubeVertices[59])) {
-                    display = false;
-                    cubeVisible = true;
-                }
-            } else {
-                if (ImGui::ColorPicker3("Color", (float *)&cubeVertices[3 + 8 * (v - 1)])) {
-                    display = false;
-                    cubeVisible = true;
-                }
-            }
+            ImGui::NewLine();
 
-            // Update the VBO with new vertex colors
-            VBO1.Bind();
-            glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(cubeVertices), cubeVertices);
-            VBO1.Unbind();
+            // RGB scale selector
+            static ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // Initial color
+            ImGui::ColorEdit3("RGB", (float*)&color); // Color picker for RGB
+
+            // Display the selected color
+            ImGui::Text("Selected Color:");
+            ImGui::SameLine();
+            ImGui::ColorButton("##ColorButton", color, ImGuiColorEditFlags_NoPicker | ImGuiColorEditFlags_NoTooltip, ImVec2(50, 25));
+            ImGui::SameLine();
+            if (ImGui::Button("Enter", ImVec2(50, 25))) {
+                float red = color.x;
+                float green = color.y;
+                float blue = color.z;
+
+                if (v == -1) {
+                    for(int i = 0; i < 8; i++) {
+                        cubeVertices[(8 * (i) + 3)] = red;
+                        cubeVertices[(8 * (i) + 4)] = green;
+                        cubeVertices[(8 * (i) + 5)] = blue;
+                    }
+                }
+
+                else {
+                    cubeVertices[(8 * (v-1) + 3)] = red;
+                    cubeVertices[(8 * (v-1) + 4)] = green;
+                    cubeVertices[(8 * (v-1) + 5)] = blue;
+                }
+                
+                cubeVisible = true;
+                display = false;
+            }
         }
 
-        ImGui::End();
+        // Bind VBO
+        VBO.Bind();
+        // Update the data in VBO
+        VBO.BufferData(cubeVertices, sizeof(cubeVertices));
+        // Unbind VBO
+        VBO.Unbind();
 
-        // Rendering
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        ImGui::End(); // End the main ImGui window
+
+        // Call the keyPress function with the obtained parameters
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        // Activate shader program
         shaderProgram.Activate();
-        VAO1.Bind();
 
-        // Update physics
-        //physics.update(cubeYPosition, cubeYVelocity);
+        glm::vec3 cubePosition = glm::vec3(0.0f, 0.0f, 0.0f); // Initialize cube position to the origin
+        glm::vec3 cubeVelocity = glm::vec3(0.0f, 0.0f, 0.0f); // Initialize cube velocity to zero
 
-        // Model matrix for transformations
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, cubeYPosition, 0.0f));
 
+        physics.update(cubePosition, cubeVelocity);
+
+        // Update rotation if cube is spinning
         if (cubeMove) {
-            if (!xStop) {
-                model = glm::rotate(model, glm::radians(xNeg ? -0.5f : 0.5f), glm::vec3(1.0f, 0.0f, 0.0f));
-            }
-            if (!yStop) {
-                model = glm::rotate(model, glm::radians(yNeg ? -0.5f : 0.5f), glm::vec3(0.0f, 1.0f, 0.0f));
+            double currentTime = glfwGetTime();
+            if (currentTime - prevTime >= 1 / 60) {
+                if (!xStop) {
+                    if (xNeg) {
+                        rotationX -= 0.5f;
+                    }
+                    else {
+                        rotationX += 0.5f;
+                    }
+                }
+                if (!yStop) {
+                    if (yNeg) {
+                        rotationY -= 0.5f;
+                    }
+                    else {
+                        rotationY += 0.5f;
+                    }
+                }
+                prevTime = currentTime;
             }
         }
 
-        // View and Projection matrices
-        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -3.0f));
-        glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
+        // Initialize matrices
+        glm::mat4 model = glm::mat4(1.0f);
+        glm::mat4 view = glm::mat4(1.0f);
+        glm::mat4 proj = glm::mat4(1.0f);
 
-        GLuint viewLoc = glGetUniformLocation(shaderProgram.ID, "view");
-        GLuint projectionLoc = glGetUniformLocation(shaderProgram.ID, "projection");
+        // Assign transformations
+        model = glm::rotate(model, glm::radians(rotationY), glm::vec3(1.0f, 0.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(rotationX), glm::vec3(0.0f, 1.0f, 0.0f));
+        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
+        proj = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f);
 
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-        GLuint modelLoc = glGetUniformLocation(shaderProgram.ID, "model");
+        // Pass matrices to vertex shader
+        int modelLoc = glGetUniformLocation(shaderProgram.ID, "model");
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        int viewLoc = glGetUniformLocation(shaderProgram.ID, "view");
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+        int projLoc = glGetUniformLocation(shaderProgram.ID, "proj");
+        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
 
-        if (cubeVisible) {
+        // Bind VAO
+        VAO.Bind();
+        if(cubeVisible) {
             glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
         }
 
-        // ImGui rendering
+        // Render Dear ImGui into screen
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        // Swap the back buffer with the front buffer
+        // Swap buffers
         glfwSwapBuffers(window);
     }
 
-    // Cleanup
-    VAO1.Delete();
-    VBO1.Delete();
-    EBO1.Delete();
-    shaderProgram.Delete();
-
+    // Delete all the objects we've created
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-
+    VAO.Delete();
+    VBO.Delete();
+    EBO.Delete();
+    shaderProgram.Delete();
     glfwDestroyWindow(window);
+    // Terminate GLFW before ending the program
     glfwTerminate();
-
     return 0;
 }
