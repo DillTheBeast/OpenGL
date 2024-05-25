@@ -5,6 +5,7 @@
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/VAO.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/VBO.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/shaderClass.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/physics.cpp \
     /Users/dillonmaltese/documents/github/opengl/Shapemaker/include/imgui/imgui.cpp \
     /Users/dillonmaltese/documents/github/opengl/Shapemaker/include/imgui/imgui_demo.cpp \
     /Users/dillonmaltese/documents/github/opengl/Shapemaker/include/imgui/imgui_draw.cpp \
@@ -29,7 +30,7 @@
 #include <glm/vec3.hpp> 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
+#include "physics.h"
 #include "shaderClass.h"
 #include "VAO.h"
 #include "VBO.h"
@@ -190,6 +191,10 @@ int main() {
     ImGui::CreateContext();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
+
+    float gravity = 9.8f;
+    float bounceDamping = 0.5f;
+    Physics physics(gravity, bounceDamping);
 
     //Main loop
     while (!glfwWindowShouldClose(window)) {
