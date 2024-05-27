@@ -2,34 +2,35 @@
     /Users/dillonmaltese/Documents/GitHub/OpenGL/PhysicsEngine/Main.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/PhysicsEngine/Shader.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/PhysicsEngine/src/glad.c \
-    /Users/dillonmaltese/documents/github/opengl/PhysicsEngine/include/imgui/imgui.cpp \
-    /Users/dillonmaltese/documents/github/opengl/PhysicsEngine/include/imgui/imgui_demo.cpp \
-    /Users/dillonmaltese/documents/github/opengl/PhysicsEngine/include/imgui/imgui_draw.cpp \
-    /Users/dillonmaltese/documents/github/opengl/PhysicsEngine/include/imgui/imgui_widgets.cpp \
-    /Users/dillonmaltese/documents/github/opengl/PhysicsEngine/include/imgui/imgui_tables.cpp \
-    /Users/dillonmaltese/documents/github/opengl/PhysicsEngine/include/imgui/backends/imgui_impl_opengl3.cpp \
-    /Users/dillonmaltese/documents/github/opengl/PhysicsEngine/include/imgui/backends/imgui_impl_glfw.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/PhysicsEngine/include/imgui/imgui.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/PhysicsEngine/include/imgui/imgui_demo.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/PhysicsEngine/include/imgui/imgui_draw.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/PhysicsEngine/include/imgui/imgui_widgets.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/PhysicsEngine/include/imgui/imgui_tables.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/PhysicsEngine/include/imgui/backends/imgui_impl_opengl3.cpp \
+    /Users/dillonmaltese/Documents/GitHub/OpenGL/PhysicsEngine/include/imgui/backends/imgui_impl_glfw.cpp \
     -o main \
     -I/Users/dillonmaltese/Documents/GitHub/OpenGL/PhysicsEngine/include \
     -I/Users/dillonmaltese/Documents/GitHub/OpenGL/PhysicsEngine/include/glm \
-    -I/Users/dillonmaltese/documents/github/opengl/PhysicsEngine/include/imgui \
-    -I/Users/dillonmaltese/documents/github/opengl/PhysicsEngine/include/imgui/backends \
+    -I/Users/dillonmaltese/Documents/GitHub/OpenGL/PhysicsEngine/include/imgui \
+    -I/Users/dillonmaltese/Documents/GitHub/OpenGL/PhysicsEngine/include/imgui/backends \
     -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
     -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include <cmath>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <vector>
 #include "Shader.h"
+
+// Global shader program ID
+unsigned int shaderProgram;
 
 // Callback function for window resizing
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
-
-    // Use the shader program
-    extern unsigned int shaderProgram;
     glUseProgram(shaderProgram);
 
     // Calculate the new aspect ratio and set it as a uniform
@@ -44,7 +45,19 @@ void processInput(GLFWwindow *window) {
         glfwSetWindowShouldClose(window, true);
 }
 
-unsigned int shaderProgram; // Declare shaderProgram globally
+// Function to build circle vertex data
+void buildCircle(float radius, int vCount, std::vector<glm::vec3>& vertices) {
+    float angleStep = 360.0f / vCount;
+
+    vertices.push_back(glm::vec3(0.0f, 0.0f, 0.0f)); // Center point
+
+    for (int i = 0; i <= vCount; ++i) {
+        float angle = glm::radians(angleStep * i);
+        float x = radius * cos(angle);
+        float y = radius * sin(angle);
+        vertices.push_back(glm::vec3(x, y, 0.0f));
+    }
+}
 
 int main() {
     // Initialize GLFW
@@ -78,6 +91,10 @@ int main() {
     glViewport(0, 0, 800, 600);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+    // Build circle vertices
+    std::vector<glm::vec3> vertices;
+    buildCircle(0.5f, 100, vertices); // Adjust the segment count for a smoother circle
+
     // Compile and link shaders
     shaderProgram = createShaderProgram("PhysicsEngine/default.vert", "PhysicsEngine/default.frag");
 
@@ -87,37 +104,14 @@ int main() {
     int aspectRatioLocation = glGetUniformLocation(shaderProgram, "aspectRatio");
     glUniform1f(aspectRatioLocation, aspectRatio);
 
-    // Define circle vertices
-    const int numSegments = 100; // Number of segments used to approximate the circle
-    const float radius = 0.5f;   // Radius of the circle
-
-    std::vector<float> vertices; // Vector to hold the vertex data
-
-    // Center of the circle
-    vertices.push_back(0.0f);
-    vertices.push_back(0.0f);
-    vertices.push_back(0.0f);
-
-    for (int i = 0; i <= numSegments; ++i) {
-        float angle = 2.0f * M_PI * float(i) / float(numSegments); // Calculate the angle for this segment
-        float x = radius * cosf(angle); // Calculate the x component
-        float y = radius * sinf(angle); // Calculate the y component
-
-        vertices.push_back(x);
-        vertices.push_back(y);
-        vertices.push_back(0.0f); // z component is 0 since we are in 2D
-    }
-
-    // Generate and bind the VAO and VBO
     unsigned int VBO, VAO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
 
     glBindVertexArray(VAO);
-
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
 
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
@@ -131,25 +125,23 @@ int main() {
         // Clear the screen
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // Use the shader program
+        // Use shader program
         glUseProgram(shaderProgram);
 
-        // Bind the VAO (the circle)
+        // Bind vertex array and draw circle
         glBindVertexArray(VAO);
-
-        // Draw the circle using GL_TRIANGLE_FAN
-        glDrawArrays(GL_TRIANGLE_FAN, 0, vertices.size() / 3);
+        glDrawArrays(GL_TRIANGLE_FAN, 0, vertices.size());
 
         // Swap buffers
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
-    // Clean up
+    // Cleanup
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
-
     glfwDestroyWindow(window);
     glfwTerminate();
+
     return 0;
 }
