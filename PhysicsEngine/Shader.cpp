@@ -1,28 +1,22 @@
-#include "Shader.h"
-#include <glad/glad.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <string>
+#include <glad/glad.h>
 
-// Function to read shader source code from file
-std::string readFile(const char* filePath) {
-    std::string code;
-    std::ifstream shaderFile(filePath, std::ios::in);
-    if (shaderFile.is_open()) {
-        std::stringstream buffer;
-        buffer << shaderFile.rdbuf();
-        shaderFile.close();
-        code = buffer.str();
-    }
-    return code;
+std::string readShaderFile(const char* filePath) {
+    std::ifstream shaderFile(filePath);
+    std::stringstream shaderStream;
+    shaderStream << shaderFile.rdbuf();
+    return shaderStream.str();
 }
 
-// Function to compile shaders
-unsigned int compileShader(unsigned int type, const char* source) {
-    unsigned int shader = glCreateShader(type);
-    glShaderSource(shader, 1, &source, nullptr);
+GLuint compileShader(const char* shaderCode, GLenum shaderType) {
+    GLuint shader = glCreateShader(shaderType);
+    glShaderSource(shader, 1, &shaderCode, nullptr);
     glCompileShader(shader);
 
+    // Check for shader compile errors
     int success;
     char infoLog[512];
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
@@ -33,25 +27,26 @@ unsigned int compileShader(unsigned int type, const char* source) {
     return shader;
 }
 
-// Function to create shader program
-unsigned int createShaderProgram(const char* vertexPath, const char* fragmentPath) {
-    std::string vertexCode = readFile(vertexPath);
-    std::string fragmentCode = readFile(fragmentPath);
+GLuint createShaderProgram(const char* vertexPath, const char* fragmentPath) {
+    std::string vertexCode = readShaderFile(vertexPath);
+    std::string fragmentCode = readShaderFile(fragmentPath);
 
-    unsigned int vertexShader = compileShader(GL_VERTEX_SHADER, vertexCode.c_str());
-    unsigned int fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentCode.c_str());
+    GLuint vertexShader = compileShader(vertexCode.c_str(), GL_VERTEX_SHADER);
+    GLuint fragmentShader = compileShader(fragmentCode.c_str(), GL_FRAGMENT_SHADER);
 
-    unsigned int shaderProgram = glCreateProgram();
+    // Link shaders
+    GLuint shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
     glLinkProgram(shaderProgram);
 
+    // Check for linking errors
     int success;
     char infoLog[512];
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(shaderProgram, 512, nullptr, infoLog);
-        std::cerr << "ERROR::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+        std::cerr << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
     }
 
     glDeleteShader(vertexShader);
