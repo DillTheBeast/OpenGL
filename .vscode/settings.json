@@ -69,6 +69,7 @@
   "C_Cpp.errorSquiggles": "enabled",
   "cmake.sourceDirectory": "/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker",
   "files.associations": {
-    "sstream": "cpp"
+    "sstream": "cpp",
+    "iostream": "cpp"
   }
 }

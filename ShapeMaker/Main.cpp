@@ -1,3 +1,4 @@
+
 //g++ -std=c++17 \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/Main.cpp \
     /Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker/src/glad.c \
