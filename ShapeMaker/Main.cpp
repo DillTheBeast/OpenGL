@@ -22,7 +22,6 @@
     -L/Users/dillonmaltese/Documents/GitHub/OpenGL/lib \
     -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
 
-
 #include <iostream>
 #include <limits>
 #include <glad/glad.h>
@@ -119,6 +118,152 @@ GLuint indices[] = {
     5, 7, 6
 };
 
+GLfloat* RenderImGui(GLFWwindow* window, bool& cubeMove, bool& cubeVisible, bool& display, bool& xNeg, bool& yNeg, bool& xStop, bool& yStop, int& v, GLfloat cubeVertices[]) {
+    // Set up the main ImGui window
+    ImGui::SetNextWindowSize(ImVec2(1000, 800)); // Set the window size to accommodate all buttons
+    ImGui::SetNextWindowPos(ImVec2(10, 10)); // Set the window position
+    ImGui::Begin("Controls", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground);
+
+    // Set text size
+    ImGui::SetWindowFontScale(1.2); // Set text scale
+
+    if (ImGui::Button("Close Application", ImVec2(150, 50))) {
+        glfwSetWindowShouldClose(window, true);
+    }
+
+    // Move to the right side of the window
+    ImGui::SameLine(825);
+
+    if (ImGui::Button(cubeMove ? "Stop Spinning" : "Start Spinning", ImVec2(150, 50))) {
+        cubeMove = !cubeMove;
+    }
+
+    // Move to the next line
+    ImGui::NewLine();
+
+    if (ImGui::Button("Vertice 1 Color", ImVec2(150, 50))) {
+        cubeVisible = false;
+        display = true;
+        v = 1;
+    }
+
+    ImGui::SameLine(825);
+
+    if (ImGui::Button(cubeVisible ? "Hide Cube" : "Show Cube", ImVec2(150, 50))) {
+        cubeVisible = !cubeVisible;
+    }
+
+    // Move to the next line
+    ImGui::NewLine();
+
+    if (ImGui::Button("Vertice 2 Color", ImVec2(150, 50))) {
+        cubeVisible = false;
+        display = true;
+        v = 2;
+    }
+
+    ImGui::SameLine(825);
+
+    if (ImGui::Button("Reverse X", ImVec2(150, 50))) {
+        xNeg = !xNeg;
+    }
+
+    // Move to the next line
+    ImGui::NewLine();
+
+    if (ImGui::Button("Vertice 3 Color", ImVec2(150, 50))) {
+        cubeVisible = false;
+        display = true;
+        v = 3;
+    }
+
+    ImGui::SameLine(825);
+
+    if (ImGui::Button(xStop ? "Start X" : "Stop X", ImVec2(150, 50))) {
+        xStop = !xStop;
+    }
+
+    // Move to the next line
+    ImGui::NewLine();
+
+    if (ImGui::Button("Vertice 4 Color", ImVec2(150, 50))) {
+        cubeVisible = false;
+        display = true;
+        v = 4;
+    }
+
+    ImGui::SameLine(825);
+
+    if (ImGui::Button("Reverse Y", ImVec2(150, 50))) {
+        yNeg = !yNeg;
+    }
+
+    // Move to the next line
+    ImGui::NewLine();
+
+    if (ImGui::Button("Vertice 5 Color", ImVec2(150, 50))) {
+        cubeVisible = false;
+        display = true;
+        v = 5;
+    }
+
+    ImGui::SameLine(825);
+
+    if (ImGui::Button(yStop ? "Start Y" : "Stop Y", ImVec2(150, 50))) {
+        yStop = !yStop;
+    }
+
+    // Move to the next line
+    ImGui::NewLine();
+
+    if (ImGui::Button("Vertice 6 Color", ImVec2(150, 50))) {
+        cubeVisible = false;
+        display = true;
+        v = 6;
+    }
+
+    ImGui::SameLine(825);
+
+    if (ImGui::Button(cubeVisible ? "Cube Visible" : "Cube Invisible", ImVec2(150, 50))) {
+        cubeVisible = !cubeVisible;
+    }
+
+    // Move to the next line
+    ImGui::NewLine();
+
+    if (ImGui::Button("Vertice 7 Color", ImVec2(150, 50))) {
+        cubeVisible = false;
+        display = true;
+        v = 7;
+    }
+
+    ImGui::SameLine(825);
+
+    if (ImGui::Button("Vertice 8 Color", ImVec2(150, 50))) {
+        cubeVisible = false;
+        display = true;
+        v = 8;
+    }
+
+    // Here you can update the color of the vertices based on the value of `v`
+    if (display) {
+        // Assuming you have sliders to adjust the colors, something like:
+        static float color[3] = {1.0f, 1.0f, 1.0f}; // Placeholder for the actual color values
+        ImGui::ColorEdit3("Vertex Color", color);
+
+        int vertexIndex = (v - 1) * 6 + 3; // Compute the index for the color in the vertex array
+        cubeVertices[vertexIndex] = color[0];
+        cubeVertices[vertexIndex + 1] = color[1];
+        cubeVertices[vertexIndex + 2] = color[2];
+
+        display = false; // Reset display flag
+    }
+
+    ImGui::End();
+
+    return cubeVertices;
+}
+
 int main() {
     // Initialize GLFW
     if (!glfwInit()) {
@@ -161,23 +306,23 @@ int main() {
     Shader shaderProgram("ShapeMaker/default.vert", "ShapeMaker/default.frag");
 
     // Generates Vertex Array Object and binds it
-    VAO VAO;
-    VAO.Bind();
+    VAO vao;
+    vao.Bind();
 
     // Generates Vertex Buffer Object and links it to vertices
-    VBO VBO(cubeVertices, sizeof(cubeVertices));
+    VBO vbo(cubeVertices, sizeof(cubeVertices));
     // Generates Element Buffer Object and links it to indices
-    EBO EBO(indices, sizeof(indices));
+    EBO ebo(indices, sizeof(indices));
 
     // Links VBO to VAO
-    VAO.LinkAttrib(VBO, 0, 3, GL_FLOAT, 8 * sizeof(float), (void *)0); // Position attribute
-    VAO.LinkAttrib(VBO, 1, 3, GL_FLOAT, 8 * sizeof(float), (void *)(3 * sizeof(float))); // Color attribute
-    //VAO1.LinkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void *)(6 * sizeof(float))); // Image Coords attribute // Image Coords attribute
+    vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, 8 * sizeof(float), (void *)0); // Position attribute
+    vao.LinkAttrib(vbo, 1, 3, GL_FLOAT, 8 * sizeof(float), (void *)(3 * sizeof(float))); // Color attribute
+    //vao.LinkAttrib(vbo, 2, 2, GL_FLOAT, 8 * sizeof(float), (void *)(6 * sizeof(float))); // Image Coords attribute
 
     // Unbind all to prevent accidentally modifying them
-    VAO.Unbind();
-    VBO.Unbind();
-    EBO.Unbind();
+    vao.Unbind();
+    vbo.Unbind();
+    ebo.Unbind();
 
     // Creating rotation variables
     float rotationX = 0.0f;
@@ -190,6 +335,7 @@ int main() {
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
 
@@ -207,194 +353,14 @@ int main() {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        // Set up the main ImGui window
-        ImGui::SetNextWindowSize(ImVec2(1000, 800)); // Set the window size to accommodate all buttons
-        ImGui::SetNextWindowPos(ImVec2(10, 10)); // Set the window position
-        ImGui::Begin("Controls", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground);
+        // Render ImGui
+        // RenderImGui will now update and return the new cubeVertices
+        cubeVertices = RenderImGui(window, cubeMove, cubeVisible, display, xNeg, yNeg, xStop, yStop, v, cubeVertices);
 
-        // Set text size
-        ImGui::SetWindowFontScale(1.2); // Set text scale
+        // Update the VBO with new vertex data
+        vbo.Update(cubeVertices, sizeof(cubeVertices));
 
-        if (ImGui::Button("Close Application", ImVec2(150, 50))) {
-            glfwSetWindowShouldClose(window, true);
-        }
-
-        // Move to the right side of the window
-        ImGui::SameLine(825);
-
-        if (ImGui::Button(cubeMove ? "Stop Spinning" : "Start Spinning", ImVec2(150, 50))) {
-            cubeMove = !cubeMove;
-        }
-
-        // Move to the next line
-        ImGui::NewLine();
-
-        if (ImGui::Button("Vertice 1 Color", ImVec2(150, 50))) {
-            cubeVisible = false;
-            display = true;
-            v = 1;
-        }
-
-        ImGui::SameLine(825);
-
-        if (ImGui::Button(xStop ? "Stop X" : "Start X", ImVec2(150, 50))) {
-            // Button action
-            xStop = !xStop;
-        }
-
-        // Move to the next line
-        ImGui::NewLine();
-
-        if (ImGui::Button("Vertice 2 Color", ImVec2(150, 50))) {
-            cubeVisible = false;
-            display = true;
-            v = 2;
-        }
-
-        ImGui::SameLine(825);
-
-        if (ImGui::Button(yStop ? "Stop Y" : "Start Y", ImVec2(150, 50))) {
-            // Button action
-            yStop = !yStop;
-        }
-
-        // Move to the next line
-        ImGui::NewLine();
-
-        if (ImGui::Button("Vertice 3 Color", ImVec2(150, 50))) {
-            cubeVisible = false;
-            display = true;
-            v = 3;
-        }
-
-        ImGui::SameLine(825);
-
-        if (ImGui::Button("Reverse Both", ImVec2(150, 50))) {
-            // Button action
-            xNeg = !xNeg;
-            yNeg = !yNeg;
-        }
-
-        // Move to the next line
-        ImGui::NewLine();
-
-        if (ImGui::Button("Vertice 4 Color", ImVec2(150, 50))) {
-            cubeVisible = false;
-            display = true;
-            v = 4;
-        }
-
-        ImGui::SameLine(825);
-
-        if (ImGui::Button("Reverse X", ImVec2(150, 50))) {
-            // Button action
-            xNeg = !xNeg;
-        }
-
-        // Move to the next line
-        ImGui::NewLine();
-
-        if (ImGui::Button("Vertice 5 Color", ImVec2(150, 50))) {
-            cubeVisible = false;
-            display = true;
-            v = 5;
-        }
-
-        ImGui::SameLine(825);
-
-        if (ImGui::Button("Reverse Y", ImVec2(150, 50))) {
-            // Button action
-            yNeg = !yNeg;
-        }
-        
-        // Move to the next line
-        ImGui::NewLine();
-
-        if (ImGui::Button("Vertice 6 Color", ImVec2(150, 50))) {
-            cubeVisible = false;
-            display = true;
-            v = 6;
-        }
-
-        ImGui::SameLine(825);
-
-        if (ImGui::Button(cubeVisible ? "Cube Visible" : "Cube Invisible", ImVec2(150, 50))) {
-            cubeVisible = !cubeVisible;
-        }
-
-        // Move to the next line
-        ImGui::NewLine();
-
-        if (ImGui::Button("Vertice 7 Color", ImVec2(150, 50))) {
-            cubeVisible = false;
-            display = true;
-            v = 7;
-        }
-
-        // Move to the next line
-        ImGui::NewLine();
-
-        if (ImGui::Button("Vertice 8 Color", ImVec2(150, 50))) {
-            cubeVisible = false;
-            display = true;
-            v = 8;
-        }
-
-        // Move to the next line
-        ImGui::NewLine();
-
-        if (ImGui::Button("All Vertice Color", ImVec2(150, 50))) {
-            cubeVisible = false;
-            display = true;
-            v = -1;
-        }
-
-        if (display) {
-            ImGui::NewLine();
-
-            // RGB scale selector
-            static ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // Initial color
-            ImGui::ColorEdit3("RGB", (float*)&color); // Color picker for RGB
-
-            // Display the selected color
-            ImGui::Text("Selected Color:");
-            ImGui::SameLine();
-            ImGui::ColorButton("##ColorButton", color, ImGuiColorEditFlags_NoPicker | ImGuiColorEditFlags_NoTooltip, ImVec2(50, 25));
-            ImGui::SameLine();
-            if (ImGui::Button("Enter", ImVec2(50, 25))) {
-                float red = color.x;
-                float green = color.y;
-                float blue = color.z;
-
-                if (v == -1) {
-                    for(int i = 0; i < 8; i++) {
-                        cubeVertices[(8 * (i) + 3)] = red;
-                        cubeVertices[(8 * (i) + 4)] = green;
-                        cubeVertices[(8 * (i) + 5)] = blue;
-                    }
-                }
-
-                else {
-                    cubeVertices[(8 * (v-1) + 3)] = red;
-                    cubeVertices[(8 * (v-1) + 4)] = green;
-                    cubeVertices[(8 * (v-1) + 5)] = blue;
-                }
-                
-                cubeVisible = true;
-                display = false;
-            }
-        }
-
-        // Bind VBO
-        VBO.Bind();
-        // Update the data in VBO
-        VBO.BufferData(cubeVertices, sizeof(cubeVertices));
-        // Unbind VBO
-        VBO.Unbind();
-
-        ImGui::End(); // End the main ImGui window
-
-        // Call the keyPress function with the obtained parameters
+        // Clear the screen
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -403,7 +369,6 @@ int main() {
 
         glm::vec3 cubePosition = glm::vec3(0.0f, 0.0f, 0.0f); // Initialize cube position to the origin
         glm::vec3 cubeVelocity = glm::vec3(0.0f, 0.0f, 0.0f); // Initialize cube velocity to zero
-
 
         physics.update(cubePosition, cubeVelocity);
 
@@ -414,16 +379,14 @@ int main() {
                 if (!xStop) {
                     if (xNeg) {
                         rotationX -= 0.5f;
-                    }
-                    else {
+                    } else {
                         rotationX += 0.5f;
                     }
                 }
                 if (!yStop) {
                     if (yNeg) {
                         rotationY -= 0.5f;
-                    }
-                    else {
+                    } else {
                         rotationY += 0.5f;
                     }
                 }
@@ -451,12 +414,12 @@ int main() {
         glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
 
         // Bind VAO
-        VAO.Bind();
-        if(cubeVisible) {
+        vao.Bind();
+        if (cubeVisible) {
             glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
         }
 
-        // Render Dear ImGui into screen
+        // Render ImGui
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -464,16 +427,15 @@ int main() {
         glfwSwapBuffers(window);
     }
 
-    // Delete all the objects we've created
+    // Cleanup
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-    VAO.Delete();
-    VBO.Delete();
-    EBO.Delete();
+    vao.Delete();
+    vbo.Delete();
+    ebo.Delete();
     shaderProgram.Delete();
     glfwDestroyWindow(window);
-    // Terminate GLFW before ending the program
     glfwTerminate();
     return 0;
 }
