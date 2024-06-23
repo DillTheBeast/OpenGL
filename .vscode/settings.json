@@ -67,7 +67,7 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "C_Cpp.errorSquiggles": "enabled",
-  "cmake.sourceDirectory": "/Users/dillonmaltese/Documents/GitHub/OpenGL/ShapeMaker",
+  "cmake.sourceDirectory": "/Users/dillonmaltese/Documents/GitHub/OpenGL/PhysicsEngine/include/imgui/examples/example_glfw_vulkan",
   "files.associations": {
     "sstream": "cpp",
     "iostream": "cpp"
